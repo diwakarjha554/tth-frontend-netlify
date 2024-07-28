@@ -9,7 +9,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
     <Link
       href={'/'}
-      className={`${className}`}
+      className={`${className} select-none`}
     >
       <span className='logo-font font-semibold'>
         Travel Trail Holidays

@@ -71,3 +71,7 @@
 .logo-font {
   font-size: clamp(1.125rem, 0.9621rem + 1.1335vw, 1.6875rem);
 }
+
+.hero-title {
+  font-size: clamp(0.75rem, 0.0966rem + 4.5455vw, 4.5rem);
+}

@@ -1,14 +1,17 @@
-import HeroSection from '@/components/home/hero-section';
 import Navbar from '@/components/navbar';
 import React from 'react';
 
-const page = () => {
+interface RoutesLayoutProps {
+    children: React.ReactNode;
+};
+
+const RoutesLayout: React.FC<RoutesLayoutProps> = ({ children }) => {
   return (
     <main className='flex min-h-screen flex-col items-center justify-start min-w-screen overflow-x-hidden'>
       <Navbar />
-      <HeroSection />
+      {children}
     </main>
   )
 }
 
-export default page;
+export default RoutesLayout;
