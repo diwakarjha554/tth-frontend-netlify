@@ -63,6 +63,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -74,4 +75,10 @@
 
 .hero-title {
   font-size: clamp(0.75rem, 0.0966rem + 4.5455vw, 4.5rem);
+}
+
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+  width: 0px;
 }

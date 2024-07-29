@@ -17,7 +17,7 @@ const ActiveLink: React.FC<ActiveLinkProps> = ({ href, text }) => {
     return (
         <Link
             href={href}
-            className={isActive ? 'text-rose-500' : 'hover:text-rose-500'}
+            className={isActive ? 'text-violet-500 dark:text-violet-400' : 'hover:text-violet-500 dark:hover:text-violet-400'}
         >
             {text}
         </Link>
