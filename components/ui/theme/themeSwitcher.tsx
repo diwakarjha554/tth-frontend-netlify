@@ -29,7 +29,7 @@ export default function ThemeSwitcher() {
         />
         <div
           className={`box block h-8 w-14 rounded-full ${
-            isChecked ? "bg-custom-shd" : "bg-custom-shl"
+            isChecked ? "bg-[#222222]" : "bg-border"
           }`}
         ></div>
         <div

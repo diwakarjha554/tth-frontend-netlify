@@ -1,3 +1,4 @@
+import FooterBar from '@/components/footer/footer-bar';
 import CarouselCard from '@/components/home/carousel';
 import DataCounter from '@/components/home/data-counter';
 import HeroSection from '@/components/home/hero-section';
@@ -17,6 +18,7 @@ const page = () => {
       <HomePackages />
       <TopValues />
       <DataCounter />
+      <FooterBar />
     </main>
   )
 }
