@@ -10,7 +10,7 @@ import { Vortex } from '@/components/ui/vortex';
 
 const HeroSection = () => {
     return (
-        <Section className='h-[600px] md:h-[100vh] relative bg-black'>
+        <Section className='h-[600px] sm:h-[700px] md:h-[100vh] relative bg-black'>
             <Container className=''>
                 {/* <Vortex
                     backgroundColor="black"

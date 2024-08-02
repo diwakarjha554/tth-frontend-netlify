@@ -1,8 +1,8 @@
+import React from 'react';
 import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
-import React from 'react';
-import ThemeBox from './theme-box';
-import { FaFaceAngry } from 'react-icons/fa6';
+import ThemeCarousel from './theme-carousel';
+import { cardData } from '@/data/themeSelect';
 
 const SelectTheme = () => {
   return (
@@ -17,22 +17,7 @@ const SelectTheme = () => {
           </h1>
         </div>
         <div className='mt-10 flex flex-wrap gap-5 justify-center'>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
-          <ThemeBox icon={FaFaceAngry} size={32}/>
+          <ThemeCarousel cards={cardData}/>
         </div>
       </Container>
     </Section>
