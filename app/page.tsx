@@ -1,3 +1,4 @@
+import CarouselCard from '@/components/home/carousel';
 import DataCounter from '@/components/home/data-counter';
 import HeroSection from '@/components/home/hero-section';
 import HomePackages from '@/components/home/home-packages';
@@ -11,6 +12,7 @@ const page = () => {
     <main className='flex min-h-screen flex-col items-center justify-start min-w-screen overflow-x-hidden'>
       <Navbar />
       <HeroSection />
+      {/* <CarouselCard /> */}
       <SelectTheme />
       <HomePackages />
       <TopValues />

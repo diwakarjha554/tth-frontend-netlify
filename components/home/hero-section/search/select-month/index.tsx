@@ -18,17 +18,17 @@ const SelectMonth = () => {
 
   return (
     <div
-      className='w-full min-w-[205px] relative cursor-pointer'
+      className='w-full relative cursor-pointer'
       onClick={() => setIsOpen(!isOpen)}
     >
       <div className="relative">
         <div
-          className="bg-transparent w-full pr-5 pl-10 py-5 rounded-l-xl hover:rounded-l-xl focus:outline-none appearance-none cursor-pointer"
+          className='backdrop-filter backdrop-blur-md bg-opacity-30 bg-gray-500 lg:backdrop-filter-none md:bg-transparent w-full pr-5 pl-10 py-5 border-r-gray-500 rounded lg:rounded-none lg:rounded-l-xl focus:outline-none'
         >
           {selectedOption || "Select month"}
         </div>
         {isOpen && (
-          <div className="absolute w-full mt-1 backdrop-blur-md bg-opacity-100 dark:bg-opacity-90 bg-white text-black dark:text-white dark:bg-slate-500 rounded-xl shadow-lg z-10">
+          <div className="absolute w-full mt-1 backdrop-blur-md bg-opacity-100 dark:bg-opacity-90 bg-white text-black dark:text-white dark:bg-slate-500 rounded shadow-lg z-10">
             {options.map((option, index) => (
               <div
                 key={index}
