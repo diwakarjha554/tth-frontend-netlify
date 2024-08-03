@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
 import ThemeCarousel from './theme-carousel';
-import { cardData } from '@/data/themeSelect';
 
 const SelectTheme = () => {
   return (
@@ -17,7 +16,7 @@ const SelectTheme = () => {
           </h1>
         </div>
         <div className='mt-10 flex flex-wrap gap-5 justify-center'>
-          <ThemeCarousel cards={cardData}/>
+          <ThemeCarousel />
         </div>
       </Container>
     </Section>
@@ -25,3 +24,5 @@ const SelectTheme = () => {
 }
 
 export default SelectTheme;
+
+

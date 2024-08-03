@@ -1,39 +1,44 @@
+import { IconType } from "react-icons";
+import { GiBusStop, GiMountainRoad, GiPineTree, GiSelfLove } from "react-icons/gi";
+import { MdFamilyRestroom, MdTempleHindu } from "react-icons/md";
+
 export interface CardData {
-    image: string;
-    heading: string;
+    icon: IconType;
+    label: string;
+    description: string;
 }
 
-export const cardData: CardData[] = [
-    { 
-        image: '/path/to/image1.jpg', 
-        heading: 'Card 1' 
+const CardData: CardData[] = [
+    {
+        label: 'Romantic',
+        icon: GiSelfLove,
+        description: 'This is a romantic package'
     },
-    { 
-        image: '/path/to/image2.jpg', 
-        heading: 'Card 2' 
+    {
+        label: 'Religious',
+        icon: MdTempleHindu,
+        description: 'This is a religious package'
     },
-    { 
-        image: '/path/to/image3.jpg', 
-        heading: 'Card 3' 
+    {
+        label: 'Adventure',
+        icon: GiMountainRoad,
+        description: 'This is a adventure package'
     },
-    { 
-        image: '/path/to/image4.jpg', 
-        heading: 'Card 4' 
+    {
+        label: 'Family',
+        icon: MdFamilyRestroom,
+        description: 'This is a Family package'
     },
-    { 
-        image: '/path/to/image5.jpg', 
-        heading: 'Card 5' 
+    {
+        label: 'Nature',
+        icon: GiPineTree,
+        description: 'This is a nature package'
     },
-    { 
-        image: '/path/to/image6.jpg', 
-        heading: 'Card 6' 
-    },
-    { 
-        image: '/path/to/image7.jpg', 
-        heading: 'Card 7' 
-    },
-    { 
-        image: '/path/to/image8.jpg', 
-        heading: 'Card 8' 
+    {
+        label: 'Hill Station',
+        icon: GiBusStop,
+        description: 'This is a hill station package'
     },
 ];
+
+export default CardData;
