@@ -22,6 +22,7 @@ const HeroSection = () => {
                     alt='heroImage'
                     className='object-cover select-none '
                     quality={100}
+                    priority
                 />
                     {/* <Vortex
                     backgroundColor="black"

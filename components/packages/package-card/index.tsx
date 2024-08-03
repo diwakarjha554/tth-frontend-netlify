@@ -10,6 +10,7 @@ const PackageCard = () => {
           src='/packageImage.webp'
           alt='package'
           className='rounded-t  object-cover group-hover:scale-110 transition'
+          
         />
       </div>
       <div className='py-3 px-2 bg-gray-50 dark:bg-[#111111]'>
