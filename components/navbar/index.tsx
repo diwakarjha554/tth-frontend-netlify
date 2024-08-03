@@ -1,6 +1,6 @@
 import React from 'react';
-import UpperNavbar from './upper-navbar';
-import LowerNavbar from './lower-navbar';
+import UpperNavbar from '@/components/navbar/upper-navbar';
+import LowerNavbar from '@/components/navbar/lower-navbar';
 
 const Navbar = () => {
   return (
