@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import  CardData  from '@/data/themeSelect';
+import CardData from '@/data/themeSelect';
 import GradientIcon from '@/components/ui/features/GradientIcon';
 
 const ThemeCarousel = () => {
@@ -32,7 +32,7 @@ const ThemeCarousel = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       Math.min(prevIndex + 1, cards.length - cardsToShow)
     );
   };
@@ -44,16 +44,20 @@ const ThemeCarousel = () => {
   return (
     <div className="w-full max-w-[1550px] mx-auto relative">
       <div className="overflow-hidden mb-10">
-        <div 
-          className="flex transition-transform duration-500 ease-in-out"
+        <div
+          className="flex gap-5 transition-transform duration-500 ease-in-out"
           style={{
-            transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)`,
+            transform: `translateX(calc(-${currentIndex * (100 / cardsToShow)}% - ${currentIndex * 20 / cardsToShow}px))`,
           }}
         >
           {cards.map((card, index) => (
-            <div key={index} className="flex-shrink-0 px-1 sm:px-2 md:px-3 lg:px-4" style={{ width: `${100 / cardsToShow}%` }}>
-              <div className="flex flex-col justify-center items-center gap-2 py-2 h-[170px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 transition rounded overflow-hidden cursor-pointer">
-                <GradientIcon icon={card.icon} size={40}/>
+            <div
+              key={index}
+              className="flex-shrink-0"
+              style={{ width: `calc(${100 / cardsToShow}% - ${20 * (cardsToShow - 1) / cardsToShow}px)` }}
+            >
+              <div className="flex flex-col justify-center items-center gap-2 py-2 h-[170px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 transition rounded-lg overflow-hidden cursor-pointer">
+                <GradientIcon icon={card.icon} size={40} />
                 <h3 className="font-medium text-center truncate w-full">{card.label}</h3>
               </div>
             </div>
@@ -61,15 +65,15 @@ const ThemeCarousel = () => {
         </div>
       </div>
       <div className="flex justify-center gap-2">
-        <button 
-          onClick={prevSlide} 
+        <button
+          onClick={prevSlide}
           disabled={currentIndex === 0}
           className="bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl transition-colors duration-300 hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           &lt;
         </button>
-        <button 
-          onClick={nextSlide} 
+        <button
+          onClick={nextSlide}
           disabled={currentIndex === cards.length - cardsToShow}
           className="bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl transition-colors duration-300 hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
