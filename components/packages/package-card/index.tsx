@@ -3,13 +3,13 @@ import React from 'react'
 
 const PackageCard = () => {
   return (
-    <div className='shadow dark:shadow-gray-500/50 group rounded max-w-[362px] w-full cursor-pointer relative'>
+    <div className='shadow dark:shadow-gray-500/50 group rounded-xl w-full cursor-pointer relative'>
       <div className='relative overflow-hidden h-[230px]'>
         <Image
           fill
           src='/packageImage.webp'
           alt='package'
-          className='rounded-t  object-cover group-hover:scale-110 transition'
+          className='rounded-t  object-cover group-hover:scale-110 transition-all ease-in-out duration-300'
           
         />
       </div>
