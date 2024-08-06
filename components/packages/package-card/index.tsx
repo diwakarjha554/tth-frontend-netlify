@@ -4,13 +4,12 @@ import React from 'react'
 const PackageCard = () => {
   return (
     <div className='shadow dark:shadow-gray-500/50 group rounded-xl w-full cursor-pointer relative'>
-      <div className='relative overflow-hidden h-[230px]'>
+      <div className='relative overflow-hidden h-[230px] rounded-t'>
         <Image
           fill
           src='/packageImage.webp'
           alt='package'
-          className='rounded-t  object-cover group-hover:scale-110 transition-all ease-in-out duration-300'
-          
+          className='object-cover group-hover:scale-110 transition-all ease-in-out duration-300'
         />
       </div>
       <div className='py-3 px-2 bg-gray-50 dark:bg-[#111111]'>

@@ -53,10 +53,10 @@ const ThemeCarousel = () => {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="flex-shrink-0"
+              className="flex-shrink-0 overflow-hidden rounded-lg"
               style={{ width: `calc(${100 / cardsToShow}% - ${20 * (cardsToShow - 1) / cardsToShow}px)` }}
             >
-              <div className="flex flex-col justify-center items-center gap-2 py-2 h-[170px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 transition rounded-lg overflow-hidden cursor-pointer">
+              <div className="flex flex-col justify-center items-center gap-2 py-2 h-[170px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 lg:hover:scale-125 transition rounded-lg cursor-pointer transform-gpu duration-500">
                 <GradientIcon icon={card.icon} size={40} />
                 <h3 className="font-medium text-center truncate w-full">{card.label}</h3>
               </div>

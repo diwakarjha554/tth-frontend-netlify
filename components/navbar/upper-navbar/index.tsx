@@ -18,7 +18,7 @@ const UpperNavbar: React.FC<UpperNavbarProps> = ({ className }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
+      const currentScrollPos = window.scrollY;
       const visible = prevScrollPos > currentScrollPos;
 
       setPrevScrollPos(currentScrollPos);
