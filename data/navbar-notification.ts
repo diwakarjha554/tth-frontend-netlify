@@ -1,3 +1,3 @@
 export const NavbarNotification = {
-    message: 'Flat 10% off on every package'
-}
+    message: 'Flat 10% off on every package',
+};
