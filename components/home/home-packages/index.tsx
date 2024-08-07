@@ -46,30 +46,44 @@ const HomePackages = () => {
                     </h1>
                     <h1 className="font-semibold text-xl">Most Favorite Tour Packages</h1>
                 </div>
-                <Swiper
-                    slidesPerView={cardsToShow}
-                    spaceBetween={30}
-                    onBeforeInit={(swiper) => {
-                        swiperRef.current = swiper;
-                    }}
-                    modules={[Navigation]}
-                    className="custom-swiper"
-                >
-                    {cards.map((card, index) => (
-                        <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded-lg">
-                            <PackageCard />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-                <div className="flex justify-center gap-4 mt-4">
+                <div className="flex items-center justify-between gap-10">
                     <button
-                        className="bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 md:flex items-center justify-center text-xl duration-300 hover:bg-opacity-90 hidden"
+                        onClick={() => swiperRef.current?.slidePrev()}
+                    >
+                        <FiChevronLeft size={24} />
+                    </button>
+                    <Swiper
+                        slidesPerView={cardsToShow}
+                        spaceBetween={30}
+                        onBeforeInit={(swiper) => {
+                            swiperRef.current = swiper;
+                        }}
+                        modules={[Navigation]}
+                        className="custom-swiper"
+                    >
+                        {cards.map((card, index) => (
+                            <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded">
+                                <PackageCard />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                    <button
+                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 md:flex items-center justify-center text-xl duration-300 hover:bg-opacity-90 hidden"
+                        onClick={() => swiperRef.current?.slideNext()}
+                    >
+                        <FiChevronRight size={24} />
+                    </button>
+                </div>
+                <div className="flex justify-center gap-4 mt-7 md:hidden">
+                    <button
+                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-opacity-90"
                         onClick={() => swiperRef.current?.slidePrev()}
                     >
                         <FiChevronLeft size={24} />
                     </button>
                     <button
-                        className="bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-opacity-90"
                         onClick={() => swiperRef.current?.slideNext()}
                     >
                         <FiChevronRight size={24} />
