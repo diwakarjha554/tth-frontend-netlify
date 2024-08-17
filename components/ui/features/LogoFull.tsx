@@ -6,7 +6,7 @@ const LogoFull = () => {
     return (
         <Link
             href='/' 
-            className="relative h-9 w-72"
+            className="relative h-9 w-72 select-none"
         >
             <Image
                 src="/logo-light.png"
