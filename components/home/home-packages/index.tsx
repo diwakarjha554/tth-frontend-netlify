@@ -63,7 +63,7 @@ const HomePackages = () => {
                         className="custom-swiper"
                     >
                         {cards.map((card, index) => (
-                            <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded">
+                            <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded border">
                                 <PackageCard />
                             </SwiperSlide>
                         ))}

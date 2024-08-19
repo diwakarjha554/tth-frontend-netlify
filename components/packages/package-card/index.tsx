@@ -3,7 +3,7 @@ import React from 'react';
 
 const PackageCard = () => {
     return (
-        <div className="group rounded-xl w-full cursor-pointer relative">
+        <div className="group w-full cursor-pointer relative">
             <div className="relative overflow-hidden h-[230px] rounded-t">
                 <Image
                     fill
