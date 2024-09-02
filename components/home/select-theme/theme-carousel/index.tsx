@@ -51,7 +51,7 @@ const ThemeCarousel = () => {
             >
                 {cards.map((card, index) => (
                     <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded-lg">
-                        <div className="flex flex-col justify-center items-center gap-2 py-2 h-[170px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 lg:hover:scale-125 transition rounded-lg cursor-pointer transform-gpu duration-500">
+                        <div className="flex flex-col justify-center items-center gap-2 py-2 h-[130px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 lg:hover:scale-125 transition rounded-lg cursor-pointer transform-gpu duration-500">
                             <GradientIcon icon={card.icon} size={40} />
                             <h3 className="font-medium text-center truncate w-full">{card.label}</h3>
                         </div>
@@ -60,16 +60,16 @@ const ThemeCarousel = () => {
             </Swiper>
             <div className="flex justify-center gap-4 mt-7">
                 <button
-                    className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-opacity-90"
+                    className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-200 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
                     onClick={() => swiperRef.current?.slidePrev()}
                 >
-                    <FiChevronLeft size={24} />
+                    <FiChevronLeft size={24} strokeWidth={3}/>
                 </button>
                 <button
-                    className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-opacity-90"
+                    className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-200 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
                     onClick={() => swiperRef.current?.slideNext()}
                 >
-                    <FiChevronRight size={24} />
+                    <FiChevronRight size={24} strokeWidth={3}/>
                 </button>
             </div>
         </div>
