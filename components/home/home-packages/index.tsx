@@ -19,7 +19,7 @@ const HomePackages = () => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     const [cardsToShow, setCardsToShow] = useState<number>(3);
-    
+
     useEffect(() => {
         const updateCardsToShow = () => {
             if (window.innerWidth < 500) {
@@ -32,7 +32,7 @@ const HomePackages = () => {
                 setCardsToShow(4);
             }
         };
-        
+
         updateCardsToShow();
         window.addEventListener('resize', updateCardsToShow);
         return () => {
@@ -43,19 +43,22 @@ const HomePackages = () => {
     return (
         <Section className="py-20">
             <Container className="w-full">
-                <div className="w-full flex flex-col items-center gap-1 text-center mb-10">
-                    <h1 className="font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text w-fit text-lg">
-                        Featured tours
-                    </h1>
-                    <h1 className="font-semibold text-xl">Most Favorite Tour Packages</h1>
-                </div>
-                <div className="flex items-center justify-between">
-                    {/* <button
-                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 md:flex items-center justify-center text-xl duration-300 hover:bg-opacity-90 hidden"
-                        onClick={() => swiperRef.current?.slidePrev()}
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <h1 className="font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text w-fit text-lg">
+                            Featured tours
+                        </h1>
+                        <h1 className="font-semibold text-xl">Most Favorite Tour Packages</h1>
+                    </div>
+                    <Link
+                        href="/packages"
+                        className="flex items-center gap-[2px] text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl hover:scale-105 transition-all ease-in-out duration-500 h-10 min-w-24 justify-center"
                     >
-                        <FiChevronLeft size={24} />
-                    </button> */}
+                        <span className="font-medium text-sm">View All</span>
+                        <FiArrowRight />
+                    </Link>
+                </div>
+                <div className="flex items-center justify-between mt-10">
                     <Swiper
                         slidesPerView={cardsToShow}
                         spaceBetween={30}
@@ -71,35 +74,20 @@ const HomePackages = () => {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    {/* <button
-                        className="p-3 transition-colors bg-gray-500 bg-opacity-70 text-white rounded-full w-10 h-10 md:flex items-center justify-center text-xl duration-300 hover:bg-opacity-90 hidden"
-                        onClick={() => swiperRef.current?.slideNext()}
-                    >
-                        <FiChevronRight size={24} />
-                    </button> */}
                 </div>
                 <div className="flex justify-center gap-4 mt-10">
                     <button
                         className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
                         onClick={() => swiperRef.current?.slidePrev()}
                     >
-                        <FiChevronLeft size={24} strokeWidth={3}/>
+                        <FiChevronLeft size={24} strokeWidth={3} />
                     </button>
                     <button
                         className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
                         onClick={() => swiperRef.current?.slideNext()}
                     >
-                        <FiChevronRight size={24} strokeWidth={3}/>
+                        <FiChevronRight size={24} strokeWidth={3} />
                     </button>
-                </div>
-                <div className="w-full flex items-center justify-center mt-10">
-                    <Link
-                        href="/packages"
-                        className="flex items-center gap-2 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-4 px-5 sm:px-7 rounded hover:scale-110 transition-all ease-in-out duration-500"
-                    >
-                        <span className="font-medium text-xs sm:text-base">View All Packages</span>
-                        <FiArrowRight />
-                    </Link>
                 </div>
             </Container>
         </Section>
