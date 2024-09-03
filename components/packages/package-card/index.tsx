@@ -4,7 +4,7 @@ import React from 'react';
 const PackageCard = () => {
     return (
         <div className="group w-full cursor-pointer relative shadow">
-            <div className="relative overflow-hidden h-[230px] rounded-t">
+            <div className="relative overflow-hidden h-[200px] rounded-t">
                 <Image
                     fill
                     src="/packageImage.webp"

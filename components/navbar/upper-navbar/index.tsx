@@ -12,30 +12,30 @@ interface UpperNavbarProps {
 
 const UpperNavbar: React.FC<UpperNavbarProps> = ({ className }) => {
     const [isVisible, setIsVisible] = useState(true);
-    const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [show, setShow] = useState(true);
+    // const [prevScrollPos, setPrevScrollPos] = useState(0);
+    // const [show, setShow] = useState(true);
     const data = NavbarNotification;
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollPos = window.scrollY;
-            const visible = prevScrollPos > currentScrollPos;
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         const currentScrollPos = window.scrollY;
+    //         const visible = prevScrollPos > currentScrollPos;
 
-            setPrevScrollPos(currentScrollPos);
-            setShow(visible);
-        };
+    //         setPrevScrollPos(currentScrollPos);
+    //         setShow(visible);
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [prevScrollPos]);
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, [prevScrollPos]);
 
-    if (!data.message || !isVisible || !show) {
+    if (!data.message || !isVisible) {
         return null;
     }
 
     return (
         <Section
-            className={`${className} bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-1 relative transition-all duration-300 ${show ? 'top-0' : '-top-full'}`}
+            className={`${className} bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-1 relative transition-all duration-300`}
         >
             <Container className="text-center">
                 <span className="text-sm font-semibold">{data.message}</span>

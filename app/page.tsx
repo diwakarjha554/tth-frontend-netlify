@@ -2,10 +2,11 @@ import React from 'react';
 import FooterBar from '@/components/footer/footer-bar';
 import DataCounter from '@/components/home/data-counter';
 import HeroSection from '@/components/home/hero-section';
-import HomePackages from '@/components/home/home-packages';
+import FeaturedTrips from '@/components/home/featured-trips';
 import SelectTheme from '@/components/home/select-theme';
 import TopValues from '@/components/home/top-values';
 import Navbar from '@/components/navbar';
+import WeekendTrips from '@/components/home/weekend-trips';
 
 const page = () => {
     return (
@@ -13,7 +14,8 @@ const page = () => {
             <Navbar />
             <HeroSection />
             <SelectTheme />
-            <HomePackages />
+            <FeaturedTrips />
+            <WeekendTrips />
             <TopValues />
             <DataCounter />
             <FooterBar />
