@@ -13,6 +13,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import SectionHeading from '@/components/ui/section-heading';
+import SwiperButtons from '@/components/ui/swiper-buttons';
 
 const HomePackages = () => {
     const cards = CardData;
@@ -43,13 +45,8 @@ const HomePackages = () => {
     return (
         <Section className="py-20">
             <Container className="w-full">
-                <div className='flex justify-between items-center'>
-                    <div>
-                        <h1 className="font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text w-fit text-lg">
-                            Featured tours
-                        </h1>
-                        <h1 className="font-semibold text-xl">Most Favorite Tour Packages</h1>
-                    </div>
+                <div className="flex justify-between items-center">
+                    <SectionHeading mainHeading="Featured tours" subHeading="Most Favorite Tour Packages" />
                     <Link
                         href="/packages"
                         className="flex items-center gap-[2px] text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl hover:scale-105 transition-all ease-in-out duration-500 h-10 min-w-24 justify-center"
@@ -75,20 +72,10 @@ const HomePackages = () => {
                         ))}
                     </Swiper>
                 </div>
-                <div className="flex justify-center gap-4 mt-10">
-                    <button
-                        className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
-                        onClick={() => swiperRef.current?.slidePrev()}
-                    >
-                        <FiChevronLeft size={24} strokeWidth={3} />
-                    </button>
-                    <button
-                        className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-300 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
-                        onClick={() => swiperRef.current?.slideNext()}
-                    >
-                        <FiChevronRight size={24} strokeWidth={3} />
-                    </button>
-                </div>
+                <SwiperButtons
+                    swiperLeftFunction={() => swiperRef.current?.slidePrev()}
+                    swiperRightFunction={() => swiperRef.current?.slideNext()}
+                />
             </Container>
         </Section>
     );

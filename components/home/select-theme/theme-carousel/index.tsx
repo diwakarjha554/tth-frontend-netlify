@@ -10,6 +10,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import GradientIcon from '@/components/ui/features/GradientIcon';
+import SwiperButtons from '@/components/ui/swiper-buttons';
 
 const ThemeCarousel = () => {
     const cards = CardData;
@@ -58,20 +59,10 @@ const ThemeCarousel = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <div className="flex justify-center gap-4 mt-7">
-                <button
-                    className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-200 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
-                    onClick={() => swiperRef.current?.slidePrev()}
-                >
-                    <FiChevronLeft size={24} strokeWidth={3}/>
-                </button>
-                <button
-                    className="p-3 transition-colors bg-purple-500/[0.6] dark:bg-purple-500/[0.3] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl duration-200 hover:bg-purple-500/[0.8] dark:hover:bg-purple-500/[0.5]"
-                    onClick={() => swiperRef.current?.slideNext()}
-                >
-                    <FiChevronRight size={24} strokeWidth={3}/>
-                </button>
-            </div>
+            <SwiperButtons
+                swiperLeftFunction={() => swiperRef.current?.slidePrev()}
+                swiperRightFunction={() => swiperRef.current?.slideNext()}
+            />
         </div>
     );
 };
