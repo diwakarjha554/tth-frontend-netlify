@@ -1,4 +1,6 @@
+import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
+import NavbarMarginLayout from '@/components/ui/navbar-margin-layout';
 import React from 'react';
 
 interface RoutesLayoutProps {
@@ -7,10 +9,12 @@ interface RoutesLayoutProps {
 
 const RoutesLayout: React.FC<RoutesLayoutProps> = ({ children }) => {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-start min-w-screen overflow-x-hidden">
-            <Navbar />
-            {children}
-        </main>
+        <NavbarMarginLayout>
+            <main className='flex flex-col items-center justify-start w-full overflow-x-hidden'>
+                {children}
+                <Footer />
+            </main>
+        </NavbarMarginLayout>
     );
 };
 

@@ -1,22 +1,23 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import CardData from '@/data/themeSelect';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import GradientIcon from '@/components/ui/features/GradientIcon';
 import SwiperButtons from '@/components/ui/swiper-buttons';
+import ThemePage, { ThemePageSkeleton } from './theme-page';
+import { CardData, getCards } from '@/actions/themeSelect';
+import { LucideIcon } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
 const ThemeCarousel = () => {
-    const cards = CardData;
+    const [cards, setCards] = useState<CardData[]>([]);
+    const [loading, setLoading] = useState(true);
     const swiperRef = useRef<SwiperType | null>(null);
-
     const [cardsToShow, setCardsToShow] = useState<number>(5);
+
     const updateCardsToShow = () => {
         if (window.innerWidth < 300) {
             setCardsToShow(1);
@@ -39,6 +40,22 @@ const ThemeCarousel = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                setLoading(true);
+                const fetchedCards = await getCards();
+                setCards(fetchedCards);
+            } catch (error) {
+                console.error('Error fetching themes:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCards();
+    }, []);
+
     return (
         <div className="mt-10">
             <Swiper
@@ -50,14 +67,21 @@ const ThemeCarousel = () => {
                 modules={[Navigation]}
                 className="custom-swiper"
             >
-                {cards.map((card, index) => (
-                    <SwiperSlide key={index} className="flex-shrink-0 overflow-hidden rounded-lg">
-                        <div className="flex flex-col justify-center items-center gap-2 py-2 h-[130px] bg-background hover:bg-border border-2 hover:scale-105 md:hover:scale-110 lg:hover:scale-125 transition rounded-lg cursor-pointer transform-gpu duration-500">
-                            <GradientIcon icon={card.icon} size={40} />
-                            <h3 className="font-medium text-center truncate w-full">{card.label}</h3>
-                        </div>
-                    </SwiperSlide>
-                ))}
+                {loading
+                    ? Array(cardsToShow).fill(0).map((_, index) => (
+                        <SwiperSlide key={`skeleton-${index}`} className="flex-shrink-0 overflow-hidden rounded-lg">
+                            <ThemePageSkeleton />
+                        </SwiperSlide>
+                    ))
+                    : cards.map((card) => {
+                        const IconComponent = (LucideIcons as any)[card.icon] as LucideIcon;
+                        return (
+                            <SwiperSlide key={card.id} className="flex-shrink-0 overflow-hidden rounded-lg">
+                                <ThemePage icon={IconComponent} label={card.label} />
+                            </SwiperSlide>
+                        );
+                    })
+                }
             </Swiper>
             <SwiperButtons
                 swiperLeftFunction={() => swiperRef.current?.slidePrev()}
