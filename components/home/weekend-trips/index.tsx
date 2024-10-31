@@ -43,7 +43,7 @@ const WeekendTrips = () => {
     }, []);
 
     return (
-        <Section className="bg-gray-50 dark:bg-[#111111] py-20">
+        <Section className="py-20">
             <Container className="w-full">
                 <div className="flex justify-between items-center">
                     <SectionHeading mainHeading="Weekend trips" subHeading="Most Favorite Tour Packages" />

@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import SwiperButtons from '@/components/ui/swiper-buttons';
 import ThemePage, { ThemePageSkeleton } from './theme-page';
-import { CardData, getCards } from '@/actions/themeSelect';
+import { CardData, getCards } from '@/actions/theme-select.actions';
 import { LucideIcon } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 

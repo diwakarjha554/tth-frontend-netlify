@@ -8,6 +8,9 @@ import TopValues from '@/components/home/top-values';
 import Navbar from '@/components/navbar';
 import WeekendTrips from '@/components/home/weekend-trips';
 import Footer from '@/components/footer';
+import GetQuotes from '@/components/home/get-quotes';
+import Reviews from '@/components/home/reviews';
+import Faqs from '@/components/home/faq';
 
 const page = () => {
     return (
@@ -16,9 +19,12 @@ const page = () => {
             <HeroSection />
             <SelectTheme />
             <FeaturedTrips />
+            <GetQuotes />
             <WeekendTrips />
             <TopValues />
+            <Reviews />
             <DataCounter />
+            <Faqs />
             <Footer />
             <FooterBar />
         </main>

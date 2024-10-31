@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import Section from '@/components/ui/features/Section';
 import Container from '@/components/ui/features/Container';
 import SectionHeading from '@/components/ui/section-heading';
-import { createTheme } from '@/actions/themeSelect';
+import { createTheme } from '@/actions/theme-select.actions';
 
 const CreateTheme = () => {
     const [label, setLabel] = useState('');

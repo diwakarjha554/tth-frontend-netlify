@@ -8,6 +8,7 @@ interface SwiperButtonProps {
 interface SwiperButtonsProps {
     swiperLeftFunction: () => void;
     swiperRightFunction: () => void;
+    margin?: number;
 }
 
 export const SwiperLeftButton: React.FC<SwiperButtonProps> = ({ onClick  }) => (
@@ -28,9 +29,9 @@ export const SwiperRightButton: React.FC<SwiperButtonProps> = ({ onClick  }) => 
     </button>
 );
 
-const SwiperButtons: React.FC<SwiperButtonsProps> = ({ swiperLeftFunction, swiperRightFunction }) => {
+const SwiperButtons: React.FC<SwiperButtonsProps> = ({ swiperLeftFunction, swiperRightFunction, margin }) => {
     return (
-        <div className="flex justify-center gap-4 mt-10">
+        <div className={`flex justify-center gap-4 ${margin ? `mt-${margin}` : 'mt-10'}`}>
             <SwiperLeftButton onClick={swiperLeftFunction} />
             <SwiperRightButton onClick={swiperRightFunction} />
         </div>
