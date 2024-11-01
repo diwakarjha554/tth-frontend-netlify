@@ -4,14 +4,14 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
   const { destination, date, days, name, email, phone } = await request.json();
 
-  // Create a Nodemailer transporter for Zoho Mail
+  // Create a Nodemailer transporter for Gmail
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || '465'),
-    secure: process.env.EMAIL_SECURE === 'true',
+    host: process.env.EMAIL_HOST, // Ensure this is set to 'smtp.gmail.com'
+    port: parseInt(process.env.EMAIL_PORT || '587'), // Ensure this is set to '587'
+    secure: process.env.EMAIL_SECURE === 'true', // Should be false for port 587
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.EMAIL_USER, // Your Gmail address
+      pass: process.env.EMAIL_PASS, // Your Gmail App Password
     },
   });
 
@@ -31,13 +31,15 @@ export async function POST(request: Request) {
       Phone: ${phone}
     `,
     html: `
-      <h2>New quote request received:</h2>
-      <p><strong>Destination:</strong> ${destination}</p>
-      <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Number of Days:</strong> ${days}</p>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f4f4; border-radius: 5px;">
+        <h2 style="color: #333;">New Quote Request Received:</h2>
+        <p><strong style="color: #555;">Destination:</strong> <span style="color: #333;">${destination}</span></p>
+        <p><strong style="color: #555;">Date:</strong> <span style="color: #333;">${date}</span></p>
+        <p><strong style="color: #555;">Number of Days:</strong> <span style="color: #333;">${days}</span></p>
+        <p><strong style="color: #555;">Name:</strong> <span style="color: #333;">${name}</span></p>
+        <p><strong style="color: #555;">Email:</strong> <span style="color: #333;">${email}</span></p>
+        <p><strong style="color: #555;">Phone:</strong> <span style="color: #333;">${phone}</span></p>
+      </div>
     `,
   };
 

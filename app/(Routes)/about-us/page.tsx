@@ -1,12 +1,8 @@
-import AboutHeroSection from '@/components/about-us/hero-section';
+import AboutUs from '@/components/about-us';
 import React from 'react';
 
 const page = () => {
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-start min-w-screen overflow-x-hidden">
-            <AboutHeroSection />
-        </main>
-    );
+    return <AboutUs />;
 };
 
 export default page;

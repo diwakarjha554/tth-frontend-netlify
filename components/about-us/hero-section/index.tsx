@@ -1,4 +1,3 @@
-import Container from '@/components/ui/features/Container';
 import Section from '@/components/ui/features/Section';
 import Image from 'next/image';
 import React from 'react';
@@ -6,9 +5,7 @@ import React from 'react';
 const AboutHeroSection = () => {
     return (
         <Section className="flex flex-col items-center">
-            <div
-                className={`w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px] relative`}
-            >
+            <div className={`w-full h-[350px] relative`}>
                 <Image
                     src="/homeHeroImage.jpg"
                     width={4240}

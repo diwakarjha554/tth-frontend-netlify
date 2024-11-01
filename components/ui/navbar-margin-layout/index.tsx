@@ -11,8 +11,8 @@ const NavbarMarginLayout: React.FC<NavbarMarginLayoutProps> = ({ children }) => 
 
     useEffect(() => {
         const updateNavbarHeight = () => {
-            const upperNavbar = document.querySelector('.bg-\\[\\#FBF1EA\\]');
-            const lowerNavbar = document.querySelector('.bg-\\[\\#111111\\]');
+            const upperNavbar = document.querySelector('.bg-gradient-to-r');
+            const lowerNavbar = document.querySelector('.bg-background');
             
             let totalHeight = 0;
             
