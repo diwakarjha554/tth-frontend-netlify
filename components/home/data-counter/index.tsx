@@ -75,13 +75,15 @@ const DataCounter: React.FC = () => {
             }
         );
 
-        if (componentRef.current) {
-            observer.observe(componentRef.current);
+        const currentRef = componentRef.current;
+
+        if (currentRef) {
+            observer.observe(currentRef);
         }
 
         return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current);
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
     }, []);
