@@ -1,7 +1,8 @@
+import VoucherForm from '@/components/create-forms/create-voucher';
 import React from 'react';
 
 const page = () => {
-    return <div>page</div>;
+    return <VoucherForm />;
 };
 
 export default page;
