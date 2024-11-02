@@ -146,7 +146,7 @@ const VoucherForm = () => {
                         }
                     });
                 });
-            } else if (!formValues[key as keyof VoucherFormValues] && key !== 'itinary') {
+            } else if (key !== 'itinary' && (formValues[key as keyof VoucherFormValues] === '' || (key === 'childrenNo' && formValues.childrenNo === undefined))) {
                 hasError = true;
                 setTouched((prev) => ({ ...prev, [key]: true }));
             }
@@ -170,7 +170,7 @@ const VoucherForm = () => {
             return;
         }
 
-        // Generate booking ID if it's empty
+        // Generate booking ID if it&apos;s empty
         const bookingId = formValues.bookingId || generateBookingId();
         const queryParams = new URLSearchParams();
 
@@ -247,14 +247,14 @@ const VoucherForm = () => {
                         </div>
                         <div>
                             <label htmlFor="clientName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Client's Name <span className="text-red-500">*</span>
+                                Client&apos;s Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 name="clientName"
                                 value={formValues.clientName}
                                 onChange={handleChange}
                                 onBlur={() => handleBlur('clientName')}
-                                placeholder="Enter client's name"
+                                placeholder="Enter client&apos;s name"
                                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
                                     touched.clientName && !formValues.clientName ? 'border-red-500' : 'border-gray-300'
                                 }`}
@@ -312,7 +312,7 @@ const VoucherForm = () => {
                         </div>
                         <div>
                             <label htmlFor="hotelNo" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Hotel's No <span className="text-red-500">*</span>
+                                Hotel&apos;s No <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -377,7 +377,7 @@ const VoucherForm = () => {
                                 <li key={index} className="flex flex-col gap-2">
                                     <div>
                                         <label htmlFor={`itinary.${index}.hotelName`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                            Hotel's Name <span className="text-red-500">*</span>
+                                            Hotel&apos;s Name <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             name={`itinary.${index}.hotelName`}
@@ -387,7 +387,7 @@ const VoucherForm = () => {
                                                 handleBlur(`itinary.${index}.hotelName`);
                                                 updateTouchedItinerary(index); // Update touched state
                                             }}
-                                            placeholder="Enter hotel's name"
+                                            placeholder="Enter hotel&apos;s name"
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
                                                 touched.itinary[index]?.hotelName && !item.hotelName ? 'border-red-500' : 'border-gray-300'
                                             }`}
