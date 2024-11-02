@@ -162,13 +162,13 @@ const CreateItinerary: React.FC = () => {
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="clientName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Client's name
+                                Client&apos;s name
                             </label>
                             <input
                                 name="clientName"
                                 value={formValues.clientName}
                                 onChange={handleChange}
-                                placeholder="Client's name"
+                                placeholder="Client&apos;s name"
                                 className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                 required
                             />
@@ -335,26 +335,26 @@ const CreateItinerary: React.FC = () => {
                         </div>
                         <div>
                             <label htmlFor="tripAdvisorName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Trip advisor's name
+                                Trip advisor&apos;s name
                             </label>
                             <input
                                 name="tripAdvisorName"
                                 value={formValues.tripAdvisorName}
                                 onChange={handleChange}
-                                placeholder="Trip advisor's name"
+                                placeholder="Trip advisor&apos;s name"
                                 className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                 required
                             />
                         </div>
                         <div>
                             <label htmlFor="tripAdvisorNumber" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Trip advisor's number
+                                Trip advisor&apos;s number
                             </label>
                             <input
                                 name="tripAdvisorNumber"
                                 value={formValues.tripAdvisorNumber}
                                 onChange={handleChange}
-                                placeholder="Trip advisor's number"
+                                placeholder="Trip advisor&apos;s number"
                                 className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                 required
                             />
