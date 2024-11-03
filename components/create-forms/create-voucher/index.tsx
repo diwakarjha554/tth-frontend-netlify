@@ -146,7 +146,11 @@ const VoucherForm = () => {
                         }
                     });
                 });
-            } else if (key !== 'itinary' && (formValues[key as keyof VoucherFormValues] === '' || (key === 'childrenNo' && formValues.childrenNo === undefined))) {
+            } else if (
+                key !== 'itinary' &&
+                (formValues[key as keyof VoucherFormValues] === '' ||
+                    (key === 'childrenNo' && formValues.childrenNo === undefined))
+            ) {
                 hasError = true;
                 setTouched((prev) => ({ ...prev, [key]: true }));
             }
@@ -234,7 +238,10 @@ const VoucherForm = () => {
                 <form onSubmit={onSubmit} className="space-y-6 pb-10">
                     <div className="space-y-4">
                         <div>
-                            <label htmlFor="urlInput" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="urlInput"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Edit by URL
                             </label>
                             <input
@@ -246,7 +253,10 @@ const VoucherForm = () => {
                             />
                         </div>
                         <div>
-                            <label htmlFor="clientName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="clientName"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Client&apos;s Name <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -254,19 +264,24 @@ const VoucherForm = () => {
                                 value={formValues.clientName}
                                 onChange={handleChange}
                                 onBlur={() => handleBlur('clientName')}
-                                placeholder="Enter client&apos;s name"
+                                placeholder="Enter client's name"
                                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
                                     touched.clientName && !formValues.clientName ? 'border-red-500' : 'border-gray-300'
                                 }`}
                                 required
-                                ref={(el) => { inputRefs.current[0] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[0] = el;
+                                }}
                             />
                             {touched.clientName && !formValues.clientName && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                             )}
                         </div>
                         <div>
-                            <label htmlFor="bookingId" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="bookingId"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Booking ID
                             </label>
                             <input
@@ -278,14 +293,19 @@ const VoucherForm = () => {
                                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
                                     touched.bookingId && !formValues.bookingId ? 'border-red-500' : 'border-gray-300'
                                 }`}
-                                ref={(el) => { inputRefs.current[1] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[1] = el;
+                                }}
                             />
                             {touched.bookingId && !formValues.bookingId && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                             )}
                         </div>
                         <div>
-                            <label htmlFor="totalNights" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="totalNights"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Total Nights <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -302,16 +322,23 @@ const VoucherForm = () => {
                                 onBlur={() => handleBlur('totalNights')}
                                 placeholder="Enter total nights"
                                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                    touched.totalNights && !formValues.totalNights ? 'border-red-500' : 'border-gray-300'
+                                    touched.totalNights && !formValues.totalNights
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
                                 }`}
-                                ref={(el) => { inputRefs.current[2] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[2] = el;
+                                }}
                             />
                             {touched.totalNights && !formValues.totalNights && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                             )}
                         </div>
                         <div>
-                            <label htmlFor="hotelNo" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="hotelNo"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Hotel&apos;s No <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -324,14 +351,19 @@ const VoucherForm = () => {
                                 className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
                                     touched.hotelNo && !formValues.hotelNo ? 'border-red-500' : 'border-gray-300'
                                 }`}
-                                ref={(el) => { inputRefs.current[3] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[3] = el;
+                                }}
                             />
                             {touched.hotelNo && !formValues.hotelNo && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                             )}
                         </div>
                         <div>
-                            <label htmlFor="adultNo" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="adultNo"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Adults <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -345,14 +377,19 @@ const VoucherForm = () => {
                                     touched.adultNo && !formValues.adultNo ? 'border-red-500' : 'border-gray-300'
                                 }`}
                                 min={1}
-                                ref={(el) => { inputRefs.current[4] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[4] = el;
+                                }}
                             />
                             {touched.adultNo && !formValues.adultNo && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                             )}
                         </div>
                         <div>
-                            <label htmlFor="childrenNo" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="childrenNo"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Children
                             </label>
                             <input
@@ -366,7 +403,9 @@ const VoucherForm = () => {
                                     touched.childrenNo && !formValues.childrenNo ? 'border-red-500' : 'border-gray-300'
                                 }`}
                                 min={0}
-                                ref={(el) => { inputRefs.current[5] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[5] = el;
+                                }}
                             />
                             {touched.childrenNo && !formValues.childrenNo && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
@@ -376,7 +415,10 @@ const VoucherForm = () => {
                             {formValues.itinary.map((item, index) => (
                                 <li key={index} className="flex flex-col gap-2">
                                     <div>
-                                        <label htmlFor={`itinary.${index}.hotelName`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                        <label
+                                            htmlFor={`itinary.${index}.hotelName`}
+                                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                        >
                                             Hotel&apos;s Name <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -387,19 +429,26 @@ const VoucherForm = () => {
                                                 handleBlur(`itinary.${index}.hotelName`);
                                                 updateTouchedItinerary(index); // Update touched state
                                             }}
-                                            placeholder="Enter hotel&apos;s name"
+                                            placeholder="Enter hotel's name"
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                                touched.itinary[index]?.hotelName && !item.hotelName ? 'border-red-500' : 'border-gray-300'
+                                                touched.itinary[index]?.hotelName && !item.hotelName
+                                                    ? 'border-red-500'
+                                                    : 'border-gray-300'
                                             }`}
                                             required
-                                            ref={(el) => { inputRefs.current[6 + index] = el; }}
+                                            ref={(el) => {
+                                                inputRefs.current[6 + index] = el;
+                                            }}
                                         />
                                         {touched.itinary[index]?.hotelName && !item.hotelName && (
                                             <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                                         )}
                                     </div>
                                     <div>
-                                        <label htmlFor={`itinary.${index}.nights`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                        <label
+                                            htmlFor={`itinary.${index}.nights`}
+                                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                        >
                                             Nights <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -410,17 +459,24 @@ const VoucherForm = () => {
                                             onBlur={() => handleBlur(`itinary.${index}.nights`)}
                                             placeholder="Enter number of nights"
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                                touched.itinary[index]?.nights && item.nights <= 0 ? 'border-red-500' : 'border-gray-300'
+                                                touched.itinary[index]?.nights && item.nights <= 0
+                                                    ? 'border-red-500'
+                                                    : 'border-gray-300'
                                             }`}
                                             min={0}
-                                            ref={(el) => { inputRefs.current[6 + index + 1] = el; }}
+                                            ref={(el) => {
+                                                inputRefs.current[6 + index + 1] = el;
+                                            }}
                                         />
                                         {touched.itinary[index]?.nights && item.nights <= 0 && (
                                             <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                                         )}
                                     </div>
                                     <div>
-                                        <label htmlFor={`itinary.${index}.fromDate`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                        <label
+                                            htmlFor={`itinary.${index}.fromDate`}
+                                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                        >
                                             Check-in <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -430,17 +486,24 @@ const VoucherForm = () => {
                                             onChange={(e) => handleItineraryChange(index, 'fromDate', e.target.value)}
                                             onBlur={() => handleBlur(`itinary.${index}.fromDate`)}
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                                touched.itinary[index]?.fromDate && !item.fromDate ? 'border-red-500' : 'border-gray-300'
+                                                touched.itinary[index]?.fromDate && !item.fromDate
+                                                    ? 'border-red-500'
+                                                    : 'border-gray-300'
                                             }`}
                                             required
-                                            ref={(el) => { inputRefs.current[6 + index + 2] = el; }}
+                                            ref={(el) => {
+                                                inputRefs.current[6 + index + 2] = el;
+                                            }}
                                         />
                                         {touched.itinary[index]?.fromDate && !item.fromDate && (
                                             <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                                         )}
                                     </div>
                                     <div>
-                                        <label htmlFor={`itinary.${index}.toDate`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                        <label
+                                            htmlFor={`itinary.${index}.toDate`}
+                                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                        >
                                             Check-out <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -450,31 +513,44 @@ const VoucherForm = () => {
                                             onChange={(e) => handleItineraryChange(index, 'toDate', e.target.value)}
                                             onBlur={() => handleBlur(`itinary.${index}.toDate`)}
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                                touched.itinary[index]?.toDate && !item.toDate ? 'border-red-500' : 'border-gray-300'
+                                                touched.itinary[index]?.toDate && !item.toDate
+                                                    ? 'border-red-500'
+                                                    : 'border-gray-300'
                                             }`}
                                             required
-                                            ref={(el) => { inputRefs.current[6 + index + 3] = el; }}
+                                            ref={(el) => {
+                                                inputRefs.current[6 + index + 3] = el;
+                                            }}
                                         />
                                         {touched.itinary[index]?.toDate && !item.toDate && (
                                             <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
                                         )}
                                     </div>
                                     <div>
-                                        <label htmlFor={`itinary.${index}.description`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                        <label
+                                            htmlFor={`itinary.${index}.description`}
+                                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                        >
                                             Description <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
                                             name={`itinary.${index}.description`}
                                             value={item.description}
-                                            onChange={(e) => handleItineraryChange(index, 'description', e.target.value)}
+                                            onChange={(e) =>
+                                                handleItineraryChange(index, 'description', e.target.value)
+                                            }
                                             onBlur={() => handleBlur(`itinary.${index}.description`)}
                                             placeholder="Enter description"
                                             className={`w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 ${
-                                                touched.itinary[index]?.description && !item.description ? 'border-red-500' : 'border-gray-300'
+                                                touched.itinary[index]?.description && !item.description
+                                                    ? 'border-red-500'
+                                                    : 'border-gray-300'
                                             }`}
                                             required
                                             rows={4}
-                                            ref={(el) => { inputRefs.current[6 + index + 4] = el; }}
+                                            ref={(el) => {
+                                                inputRefs.current[6 + index + 4] = el;
+                                            }}
                                         />
                                         {touched.itinary[index]?.description && !item.description && (
                                             <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
@@ -484,7 +560,10 @@ const VoucherForm = () => {
                             ))}
                         </ul>
                         <div>
-                            <label htmlFor="cabDetails" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                            <label
+                                htmlFor="cabDetails"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
                                 Cab Details <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -497,7 +576,9 @@ const VoucherForm = () => {
                                     touched.cabDetails && !formValues.cabDetails ? 'border-red-500' : 'border-gray-300'
                                 }`}
                                 required
-                                ref={(el) => { inputRefs.current[6 + formValues.itinary.length + 5] = el; }}
+                                ref={(el) => {
+                                    inputRefs.current[6 + formValues.itinary.length + 5] = el;
+                                }}
                             />
                             {touched.cabDetails && !formValues.cabDetails && (
                                 <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>

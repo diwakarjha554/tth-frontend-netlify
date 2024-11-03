@@ -12,7 +12,7 @@ const Footer = () => {
     return (
         <Section className="py-10 border-t-[1px]">
             <Container className='w-full flex flex-col gap-5'>
-                <div className="w-full flex items-center justify-between">
+                <div className="w-full flex flex-col gap-5 sm:flex-row items-center justify-between">
                     <LogoFull />
                     <SocialBtns />
                 </div>

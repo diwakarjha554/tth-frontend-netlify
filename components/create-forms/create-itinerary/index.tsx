@@ -28,7 +28,7 @@ interface Exclusion {
     value: string;
 }
 
-const CreateItinerary: React.FC = () => {
+const ItineraryForm: React.FC = () => {
     const [formValues, setFormValues] = useState({
         clientName: '',
         packageTitle: '',
@@ -49,10 +49,44 @@ const CreateItinerary: React.FC = () => {
     });
 
     const [urlInput, setUrlInput] = useState('');
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
+
+    const validateField = (name: string, value: any) => {
+        if (!value || value === '') {
+            return 'This field is required';
+        }
+        if (name === 'quotePrice' && value <= 0) {
+            return 'Price must be greater than 0';
+        }
+        if (
+            (name === 'numberOfDays' ||
+                name === 'numberOfHotels' ||
+                name === 'numberOfInclusions' ||
+                name === 'numberOfExclusions') &&
+            value < 1
+        ) {
+            return 'Value must be at least 1';
+        }
+        return '';
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormValues((prev) => ({ ...prev, [name]: value }));
+
+        // Validate on change if field has been touched
+        if (touched[name]) {
+            const error = validateField(name, value);
+            setErrors((prev) => ({ ...prev, [name]: error }));
+        }
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setTouched((prev) => ({ ...prev, [name]: true }));
+        const error = validateField(name, value);
+        setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
     const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,11 +141,66 @@ const CreateItinerary: React.FC = () => {
         }));
     };
 
+    const validateForm = () => {
+        const newErrors: { [key: string]: string } = {};
+        const requiredFields = [
+            'clientName',
+            'packageTitle',
+            'numberOfDays',
+            'numberOfHotels',
+            'numberOfInclusions',
+            'numberOfExclusions',
+            'cabs',
+            'flights',
+            'quotePrice',
+            'tripAdvisorName',
+            'tripAdvisorNumber',
+        ];
+
+        // Validate all required fields
+        requiredFields.forEach((field) => {
+            const error = validateField(field, formValues[field as keyof typeof formValues]);
+            if (error) {
+                newErrors[field] = error;
+                setTouched((prev) => ({ ...prev, [field]: true }));
+            }
+        });
+
+        // Validate days
+        formValues.days.forEach((day, index) => {
+            if (!day.summary) newErrors[`day-summary-${index}`] = 'Summary is required';
+            if (!day.description) newErrors[`day-description-${index}`] = 'Description is required';
+            if (!day.imageSrc) newErrors[`day-imageSrc-${index}`] = 'Image source is required';
+        });
+
+        // Validate hotels
+        formValues.hotels.forEach((hotel, index) => {
+            if (!hotel.placeName) newErrors[`hotel-placeName-${index}`] = 'Place name is required';
+            if (!hotel.placeDescription) newErrors[`hotel-placeDescription-${index}`] = 'Place description is required';
+            if (!hotel.hotelName) newErrors[`hotel-hotelName-${index}`] = 'Hotel name is required';
+            if (!hotel.roomType) newErrors[`hotel-roomType-${index}`] = 'Room type is required';
+            if (!hotel.hotelDescription) newErrors[`hotel-hotelDescription-${index}`] = 'Hotel description is required';
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const queryParams = new URLSearchParams();
 
-        // Append all form values to queryParams
+        if (!validateForm()) {
+            // Find first error and focus on it
+            const firstErrorField = Object.keys(errors)[0];
+            const element = document.getElementById(firstErrorField);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.focus();
+            }
+            return;
+        }
+
+        const queryParams = new URLSearchParams();
         Object.entries(formValues).forEach(([key, value]) => {
             queryParams.append(key, JSON.stringify(value));
         });
@@ -136,23 +225,35 @@ const CreateItinerary: React.FC = () => {
                     }
                 });
                 setFormValues((prev) => ({ ...prev, ...newFormValues }));
+                setErrors({}); // Clear errors when loading from URL
+                setTouched({}); // Reset touched state
             } catch (error) {
-                console.error("Error parsing URL:", error);
+                console.error('Error parsing URL:', error);
             }
         }
     }, [urlInput]);
 
+    const inputClassName = (fieldName: string) => `
+        w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200
+        ${errors[fieldName] && touched[fieldName] ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'}
+    `;
+
     return (
         <Section className="pt-10 pb-20">
             <Container className="w-full flex flex-col gap-10 md:px-7">
-                <SectionHeading mainHeading='Create an Itinerary' subHeading='Fill the form'/>
+                <SectionHeading mainHeading="Create an Itinerary" subHeading="Fill the form" />
                 <form onSubmit={handleSubmit} className="space-y-6 pb-10">
+                    {/* URL Input Field */}
                     <div>
-                        <label htmlFor="urlInput" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                        <label
+                            htmlFor="urlInput"
+                            className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                        >
                             Input URL
                         </label>
                         <input
                             type="text"
+                            id="urlInput"
                             value={urlInput}
                             onChange={handleUrlChange}
                             placeholder="Enter URL"
@@ -160,46 +261,71 @@ const CreateItinerary: React.FC = () => {
                         />
                     </div>
                     <div className="space-y-4">
+                        {/* Client Name */}
                         <div>
-                            <label htmlFor="clientName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Client&apos;s name
+                            <label
+                                htmlFor="clientName"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Client's name <span className="text-red-500">*</span>
                             </label>
                             <input
+                                id="clientName"
                                 name="clientName"
                                 value={formValues.clientName}
                                 onChange={handleChange}
-                                placeholder="Client&apos;s name"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
-                                required
+                                onBlur={handleBlur}
+                                placeholder="Client's name"
+                                className={inputClassName('clientName')}
                             />
+                            {errors.clientName && touched.clientName && (
+                                <p className="text-red-500 text-sm mt-1">{errors.clientName}</p>
+                            )}
                         </div>
+                        {/* Package Title */}
                         <div>
-                            <label htmlFor="packageTitle" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Package title
+                            <label
+                                htmlFor="packageTitle"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Package title <span className="text-red-500">*</span>
                             </label>
                             <input
+                                id="packageTitle"
                                 name="packageTitle"
                                 value={formValues.packageTitle}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 placeholder="Package title"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
-                                required
+                                className={inputClassName('packageTitle')}
                             />
+                            {errors.packageTitle && touched.packageTitle && (
+                                <p className="text-red-500 text-sm mt-1">{errors.packageTitle}</p>
+                            )}
                         </div>
+                        {/* Days and Nights */}
                         <div className="flex gap-4 flex-wrap md:flex-nowrap">
                             <div className="flex flex-col gap-3 relative w-full">
-                                <label htmlFor="numberOfDays" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                    Number of days
+                                <label
+                                    htmlFor="numberOfDays"
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
+                                    Number of days <span className="text-red-500">*</span>
                                 </label>
                                 <input
+                                    id="numberOfDays"
                                     type="number"
                                     name="numberOfDays"
                                     value={formValues.numberOfDays}
                                     onChange={handleDaysChange}
+                                    onBlur={handleBlur}
                                     placeholder="Number of days"
-                                    className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
-                                    required
+                                    min="1"
+                                    className={inputClassName('numberOfDays')}
                                 />
+                                {errors.numberOfDays && touched.numberOfDays && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.numberOfDays}</p>
+                                )}
                             </div>
                             <div className="flex flex-col gap-3 relative w-full">
                                 <label className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
@@ -216,8 +342,11 @@ const CreateItinerary: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex flex-col gap-3 relative w-full">
-                            <label htmlFor="numberOfHotels" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Number of hotels
+                            <label
+                                htmlFor="numberOfHotels"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Number of hotels <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -225,13 +354,17 @@ const CreateItinerary: React.FC = () => {
                                 value={formValues.numberOfHotels}
                                 onChange={handleHotelsChange}
                                 placeholder="Number of hotels"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.numberOfHotels ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.numberOfHotels && <p className="text-red-500 text-sm">{errors.numberOfHotels}</p>}
                         </div>
                         <div className="flex flex-col gap-3 relative w-full">
-                            <label htmlFor="numberOfInclusions" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Number of inclusions
+                            <label
+                                htmlFor="numberOfInclusions"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Number of inclusions <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -239,13 +372,19 @@ const CreateItinerary: React.FC = () => {
                                 value={formValues.numberOfInclusions}
                                 onChange={handleInclusionsChange}
                                 placeholder="Number of inclusions"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.numberOfInclusions ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.numberOfInclusions && (
+                                <p className="text-red-500 text-sm">{errors.numberOfInclusions}</p>
+                            )}
                         </div>
                         {formValues.inclusions.map((inclusion, index) => (
                             <div key={index}>
-                                <label htmlFor={`inclusion-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`inclusion-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Inclusion {index + 1}
                                 </label>
                                 <input
@@ -262,8 +401,11 @@ const CreateItinerary: React.FC = () => {
                             </div>
                         ))}
                         <div className="flex flex-col gap-3 relative w-full">
-                            <label htmlFor="numberOfExclusions" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Number of exclusions
+                            <label
+                                htmlFor="numberOfExclusions"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Number of exclusions <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -271,13 +413,19 @@ const CreateItinerary: React.FC = () => {
                                 value={formValues.numberOfExclusions}
                                 onChange={handleExclusionsChange}
                                 placeholder="Number of exclusions"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.numberOfExclusions ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.numberOfExclusions && (
+                                <p className="text-red-500 text-sm">{errors.numberOfExclusions}</p>
+                            )}
                         </div>
                         {formValues.exclusions.map((exclusion, index) => (
                             <div key={index}>
-                                <label htmlFor={`exclusion-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`exclusion-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Exclusion {index + 1}
                                 </label>
                                 <input
@@ -294,34 +442,45 @@ const CreateItinerary: React.FC = () => {
                             </div>
                         ))}
                         <div>
-                            <label htmlFor="cabs" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Cab details
+                            <label
+                                htmlFor="cabs"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Cab details <span className="text-red-500">*</span>
                             </label>
                             <input
                                 name="cabs"
                                 value={formValues.cabs}
                                 onChange={handleChange}
                                 placeholder="Cab details"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.cabs ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.cabs && <p className="text-red-500 text-sm">{errors.cabs}</p>}
                         </div>
                         <div>
-                            <label htmlFor="flights" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Flight details
+                            <label
+                                htmlFor="flights"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Flight details <span className="text-red-500">*</span>
                             </label>
                             <input
                                 name="flights"
                                 value={formValues.flights}
                                 onChange={handleChange}
                                 placeholder="Flight details"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.flights ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.flights && <p className="text-red-500 text-sm">{errors.flights}</p>}
                         </div>
                         <div>
-                            <label htmlFor="quotePrice" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Quote price
+                            <label
+                                htmlFor="quotePrice"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Quote price <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -329,40 +488,54 @@ const CreateItinerary: React.FC = () => {
                                 value={formValues.quotePrice}
                                 onChange={handleChange}
                                 placeholder="Quote price"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.quotePrice ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.quotePrice && <p className="text-red-500 text-sm">{errors.quotePrice}</p>}
                         </div>
                         <div>
-                            <label htmlFor="tripAdvisorName" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Trip advisor&apos;s name
+                            <label
+                                htmlFor="tripAdvisorName"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Trip advisor&apos;s name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 name="tripAdvisorName"
                                 value={formValues.tripAdvisorName}
                                 onChange={handleChange}
-                                placeholder="Trip advisor&apos;s name"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                placeholder="Trip advisor's name"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.tripAdvisorName ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.tripAdvisorName && <p className="text-red-500 text-sm">{errors.tripAdvisorName}</p>}
                         </div>
                         <div>
-                            <label htmlFor="tripAdvisorNumber" className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                Trip advisor&apos;s number
+                            <label
+                                htmlFor="tripAdvisorNumber"
+                                className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                            >
+                                Trip advisor&apos;s number <span className="text-red-500">*</span>
                             </label>
                             <input
                                 name="tripAdvisorNumber"
                                 value={formValues.tripAdvisorNumber}
                                 onChange={handleChange}
-                                placeholder="Trip advisor&apos;s number"
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
+                                placeholder="Trip advisor's number"
+                                className={`w-full p-3 border rounded focus:outline-none focus:ring-2 transition duration-200 ${errors.tripAdvisorNumber ? 'border-red-500' : 'border-gray-300'}`}
                                 required
                             />
+                            {errors.tripAdvisorNumber && (
+                                <p className="text-red-500 text-sm">{errors.tripAdvisorNumber}</p>
+                            )}
                         </div>
                         <h2 className="text-2xl font-semibold !mt-10">Day Details</h2>
                         {formValues.days.map((day, index) => (
                             <div key={index} className="flex flex-col gap-4">
-                                <label htmlFor={`day-summary-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`day-summary-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Day summary
                                 </label>
                                 <input
@@ -378,7 +551,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`day-imageSrc-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`day-imageSrc-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Image source link
                                 </label>
                                 <input
@@ -394,7 +570,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`day-description-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`day-description-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Day description
                                 </label>
                                 <textarea
@@ -414,7 +593,10 @@ const CreateItinerary: React.FC = () => {
                         <h2 className="text-2xl font-semibold !mt-10">Hotel Details</h2>
                         {formValues.hotels.map((hotel, index) => (
                             <div key={index} className="flex flex-col gap-4">
-                                <label htmlFor={`hotel-placeName-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`hotel-placeName-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Place name
                                 </label>
                                 <input
@@ -430,7 +612,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`hotel-placeDescription-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`hotel-placeDescription-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Place description
                                 </label>
                                 <textarea
@@ -445,7 +630,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`hotel-hotelName-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`hotel-hotelName-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Hotel name
                                 </label>
                                 <input
@@ -461,7 +649,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`hotel-roomType-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`hotel-roomType-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Room type
                                 </label>
                                 <input
@@ -477,7 +668,10 @@ const CreateItinerary: React.FC = () => {
                                     className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 border-gray-300"
                                     required
                                 />
-                                <label htmlFor={`hotel-hotelDescription-${index}`} className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
+                                <label
+                                    htmlFor={`hotel-hotelDescription-${index}`}
+                                    className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
+                                >
                                     Hotel description
                                 </label>
                                 <textarea
@@ -509,4 +703,4 @@ const CreateItinerary: React.FC = () => {
     );
 };
 
-export default CreateItinerary;
+export default ItineraryForm;

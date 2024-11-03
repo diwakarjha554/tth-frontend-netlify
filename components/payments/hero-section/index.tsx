@@ -2,7 +2,7 @@ import Section from '@/components/ui/features/Section';
 import Image from 'next/image';
 import React from 'react';
 
-const AboutHeroSection = () => {
+const PaymentsHeroSection = () => {
     return (
         <Section className="flex flex-col items-center">
             <div className={`w-full h-[350px] relative`}>
@@ -28,4 +28,4 @@ const AboutHeroSection = () => {
     );
 };
 
-export default AboutHeroSection;
+export default PaymentsHeroSection;
