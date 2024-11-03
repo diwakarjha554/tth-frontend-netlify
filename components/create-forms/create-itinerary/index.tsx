@@ -267,7 +267,7 @@ const ItineraryForm: React.FC = () => {
                                 htmlFor="clientName"
                                 className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                             >
-                                Client's name <span className="text-red-500">*</span>
+                                Client&apos;s name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 id="clientName"
