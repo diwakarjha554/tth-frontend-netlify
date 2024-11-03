@@ -7,7 +7,7 @@ const PaymentsHeroSection = () => {
         <Section className="flex flex-col items-center">
             <div className={`w-full h-[350px] relative`}>
                 <Image
-                    src="/about-us/aboutUs.jpg"
+                    src="/payments/payments.jpg"
                     width={4240}
                     height={2832}
                     alt="hero_bg"
@@ -20,7 +20,7 @@ const PaymentsHeroSection = () => {
                     <span
                         className={`text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white transition font-semibold`}
                     >
-                        About Us
+                        Payments
                     </span>
                 </div>
             </div>
