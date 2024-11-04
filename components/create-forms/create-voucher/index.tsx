@@ -186,7 +186,7 @@ const VoucherForm = () => {
                             htmlFor="clientName"
                             className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                         >
-                            Client's Name <span className="text-red-500">*</span>
+                            Client&apos;s Name <span className="text-red-500">*</span>
                         </label>
                         <input
                             {...register('clientName', { required: 'Client name is required' })}
@@ -245,7 +245,7 @@ const VoucherForm = () => {
                             htmlFor="hotelNo"
                             className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                         >
-                            Hotel's No <span className="text-red-500">*</span>
+                            Hotel&apos;s No <span className="text-red-500">*</span>
                         </label>
                         <input
                             {...register('hotelNo', { valueAsNumber: true, min: 1 })}
