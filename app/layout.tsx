@@ -21,24 +21,6 @@ export const metadata: Metadata = {
     },
 };
 
-export function ThemeScript() {
-    return (
-        <script
-            dangerouslySetInnerHTML={{
-                __html: `
-                    try {
-                        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                            document.documentElement.classList.add('dark');
-                        } else {
-                            document.documentElement.classList.remove('dark');
-                        }
-                    } catch (_) {}
-                `,
-            }}
-        />
-    );
-}
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -46,9 +28,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <head>
-                <ThemeScript />
-            </head>
             <body className={montserrat.className}>
                 <Providers>
                     {children}
