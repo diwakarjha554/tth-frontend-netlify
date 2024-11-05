@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
-import { LucideIcon, LucideProps } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import qs from 'query-string';
 import Link from 'next/link';
 import GradientIconLucide from '@/components/ui/features/GradientIconLucide';
@@ -19,21 +19,22 @@ const ThemePage: React.FC<ThemePageProps> = ({ icon: Icon, label, className, sel
 
     const handleClick = React.useCallback(() => {
         const currentQuery = params ? qs.parse(params.toString()) : {};
-        
+
         const updatedQuery: Record<string, string | undefined> = {
             ...currentQuery,
-            category: params?.get('category') === label ? undefined : label
+            theme: params?.get('theme') === label ? undefined : label,
         };
 
         // Remove undefined values
-        Object.keys(updatedQuery).forEach(key => 
-            updatedQuery[key] === undefined && delete updatedQuery[key]
-        );
+        Object.keys(updatedQuery).forEach((key) => updatedQuery[key] === undefined && delete updatedQuery[key]);
 
-        return qs.stringifyUrl({
-            url: '/packages',
-            query: updatedQuery
-        }, { skipNull: true });
+        return qs.stringifyUrl(
+            {
+                url: '/packages',
+                query: updatedQuery,
+            },
+            { skipNull: true }
+        );
     }, [label, params]);
 
     return (

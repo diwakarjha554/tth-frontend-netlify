@@ -31,15 +31,14 @@ const TermsCondition = () => {
                         make suitable alternate arrangements, we would not be held liable for any refunds/compensation
                         claims arising out of this
                     </p>
-                    <p>
-                        Cost of deviation and cost of extension of the validity on your ticket is not included.
-                        <div>
-                            For queries regarding cancellations and refunds, please refer to our Cancellation Policy.
-                        </div>
-                        <div>
+                    {/* Replaced the problematic p tag with a div */}
+                    <div className="space-y-2">
+                        <p>Cost of deviation and cost of extension of the validity on your ticket is not included.</p>
+                        <p>For queries regarding cancellations and refunds, please refer to our Cancellation Policy.</p>
+                        <p>
                             Disputes, if any, shall be subject to the exclusive jurisdiction of the courts in New Delhi.
-                        </div>
-                    </p>
+                        </p>
+                    </div>
                     <p>
                         Any cost arising due to natural / Politicalstrick / calamities like, landslides, road blocks etc
                         (tobe borne by the clients directly on the spot) Child Policies : Till 6 year old FREE with no
