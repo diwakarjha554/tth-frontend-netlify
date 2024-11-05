@@ -16,7 +16,7 @@ const NotFound = () => {
                         <Image src={`/not-found/df.png`} alt='' width={1000} height={1000} className='w-[350px] h-full' priority/>
                         <div className='flex flex-col gap-1 text-center mt-5'>
                             <span className='text-3xl font-bold'>Oops!!! Page not found!</span>
-                            <span className='text-xl'>We can't seem to find the page you're looking for.</span>
+                            <span className='text-xl'>We can&apos;t seem to find the page you&apos;re looking for.</span>
                         </div>
                         <div className='mt-5 flex flex-col gap-3 justify-center items-center'>
                             <span>Here are some helpful links instead:</span>
