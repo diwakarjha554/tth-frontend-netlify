@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ThemeCards {
+model Theme {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   label       String @unique
   iconName    String

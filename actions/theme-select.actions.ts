@@ -25,7 +25,7 @@ export async function createTheme(data: ThemeData) {
             return { success: false, error: `Icon ${data.iconName} not found in lucide-react` };
         }
 
-        const existingTheme = await prisma.themeCards.findUnique({
+        const existingTheme = await prisma.theme.findUnique({
             where: { label: data.label },
         });
 
@@ -33,7 +33,7 @@ export async function createTheme(data: ThemeData) {
             return { success: false, error: 'A theme with this label already exists' };
         }
 
-        const newTheme = await prisma.themeCards.create({
+        const newTheme = await prisma.theme.create({
             data: {
                 label: data.label,
                 iconName: data.iconName,
@@ -50,7 +50,7 @@ export async function createTheme(data: ThemeData) {
 
 export async function getCards(): Promise<CardData[]> {
     try {
-        const cards = await prisma.themeCards.findMany();
+        const cards = await prisma.theme.findMany();
         return cards.map(card => ({
             id: card.id,
             icon: card.iconName,
