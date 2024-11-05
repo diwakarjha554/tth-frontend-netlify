@@ -31,10 +31,7 @@ interface QuoteRequest {
 export async function POST(request: Request) {
     try {
         if (request.method !== 'POST') {
-            return NextResponse.json(
-                { error: 'Method not allowed' },
-                { status: 405 }
-            );
+            return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
         }
 
         const data: QuoteRequest = await request.json();
@@ -42,16 +39,13 @@ export async function POST(request: Request) {
 
         // Validate required fields
         if (!destination || !date || !days || !name || !email || !phone) {
-            return NextResponse.json(
-                { error: 'Missing required fields' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         const mailOptions = {
             from: process.env.EMAIL_FROM,
             to: process.env.EMAIL_TO,
-            subject: 'New Quote Request',
+            subject: `${destination} Quote Request - ${phone}`,
             text: `
                 New quote request received:
                 
@@ -82,21 +76,15 @@ export async function POST(request: Request) {
         });
 
         await Promise.race([emailPromise, timeoutPromise]);
-        
-        return NextResponse.json(
-            { message: 'Email sent successfully' },
-            { status: 200 }
-        );
+
+        return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
     } catch (error) {
         console.error('Error sending email:', error);
-        
+
         // Determine the appropriate error response
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         const statusCode = error instanceof Error && error.message === 'Email sending timeout' ? 504 : 500;
-        
-        return NextResponse.json(
-            { error: errorMessage },
-            { status: statusCode }
-        );
+
+        return NextResponse.json({ error: errorMessage }, { status: statusCode });
     }
 }

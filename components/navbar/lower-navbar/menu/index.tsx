@@ -1,15 +1,20 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Avatar from '@/components/ui/features/Avatar';
 import MenuItems from '@/components/navbar/lower-navbar/menu/menu-items';
 import DarkModeBtn from '@/components/navbar/lower-navbar/menu/dark-mode-btn';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { AiOutlineUser } from 'react-icons/ai';
 import { RiHeartFill, RiLogoutCircleRLine } from 'react-icons/ri';
+import Modal from '@/components/modal';
+import dynamic from 'next/dynamic';
+
+const LoginModal = dynamic(() => import('@/components/modal/login-modal'), { ssr: false });
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [openLoginModal, setOpenLoginModal] = useState(false);
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -31,6 +36,11 @@ const Menu = () => {
         };
     }, [isOpen]);
 
+    const handleMenuBtnClick = useCallback(() => {
+        setIsOpen(false);
+        setOpenLoginModal(true);
+    }, [setIsOpen, setOpenLoginModal]);
+
     return (
         <div className="relative">
             <div
@@ -43,13 +53,14 @@ const Menu = () => {
             {isOpen && (
                 <div className="modal absolute bg-background border top-12 right-0 rounded-xl w-64 p-1">
                     <MenuItems
-                        href=""
+                        onClick={handleMenuBtnClick}
+                        href="#"
                         title="Login"
                         icon={AiOutlineUser}
                         className="bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40"
                     />
                     <MenuItems
-                        href=""
+                        href="/wishlist"
                         title="Wishlist"
                         icon={RiHeartFill}
                         className="bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40"
@@ -63,6 +74,9 @@ const Menu = () => {
                     />
                 </div>
             )}
+            <Modal title="Login" isOpen={openLoginModal} onClose={() => setOpenLoginModal(false)}>
+                <LoginModal />
+            </Modal>
         </div>
     );
 };
