@@ -308,6 +308,11 @@ const VoucherForm = () => {
                                             placeholder="Enter hotel name"
                                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                                         />
+                                        {errors.itinary?.[index]?.hotelName && (
+                                            <span className="text-red-500">
+                                                {errors.itinary[index].hotelName?.message}
+                                            </span>
+                                        )}
                                     </div>
 
                                     <div>
@@ -337,6 +342,11 @@ const VoucherForm = () => {
                                             type="date"
                                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                                         />
+                                        {errors.itinary?.[index]?.fromDate && (
+                                            <span className="text-red-500">
+                                                {errors.itinary[index].fromDate?.message}
+                                            </span>
+                                        )}
                                     </div>
 
                                     <div>
@@ -350,18 +360,30 @@ const VoucherForm = () => {
                                             type="date"
                                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                                         />
+                                        {errors.itinary?.[index]?.toDate && (
+                                            <span className="text-red-500">
+                                                {errors.itinary[index].toDate?.message}
+                                            </span>
+                                        )}
                                     </div>
 
                                     <div>
                                         <label className="block text-gray-700 dark:text-white text-sm font-semibold mb-2">
-                                            Description
+                                            Description <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
-                                            {...register(`itinary.${index}.description` as const)}
+                                            {...register(`itinary.${index}.description` as const, {
+                                                required: 'Description is required',
+                                            })}
                                             placeholder="Enter hotel description"
                                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                                             rows={3}
                                         />
+                                        {errors.itinary?.[index]?.description && (
+                                            <span className="text-red-500">
+                                                {errors.itinary[index].description?.message}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -373,10 +395,12 @@ const VoucherForm = () => {
                             htmlFor="cabDetails"
                             className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                         >
-                            Cab Details
+                            Cab Details <span className="text-red-500">*</span>
                         </label>
                         <input
-                            {...register('cabDetails')}
+                            {...register('cabDetails', {
+                                required: 'Cab details are required',
+                            })}
                             name="cabDetails"
                             placeholder="Enter cab details"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
