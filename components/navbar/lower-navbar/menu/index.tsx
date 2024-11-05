@@ -13,21 +13,21 @@ const Menu = () => {
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === "Escape") setIsOpen(false);
+            if (event.key === 'Escape') setIsOpen(false);
         };
 
         const handleClickOutside = (event: MouseEvent) => {
-            if (isOpen && !(event.target instanceof HTMLElement && event.target.closest(".modal"))) {
+            if (isOpen && !(event.target instanceof HTMLElement && event.target.closest('.modal'))) {
                 setIsOpen(false);
             }
         };
 
-        document.addEventListener("keydown", handleEscape);
-        document.addEventListener("click", handleClickOutside);
+        document.addEventListener('keydown', handleEscape);
+        document.addEventListener('click', handleClickOutside);
 
         return () => {
-            document.removeEventListener("keydown", handleEscape);
-            document.removeEventListener("click", handleClickOutside);
+            document.removeEventListener('keydown', handleEscape);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, [isOpen]);
 
@@ -44,7 +44,7 @@ const Menu = () => {
                 <div className="modal absolute bg-background border top-12 right-0 rounded-xl w-64 p-1">
                     <MenuItems
                         href=""
-                        title="Account"
+                        title="Login"
                         icon={AiOutlineUser}
                         className="bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40"
                     />

@@ -57,12 +57,10 @@ const GetQuotesForm = () => {
         // Create a copy of the form data before resetting
         const submittedData = { ...formData };
         
-        // Show initial loading toast
-        toast.loading('Processing your request...', { duration: 3000 });
-        
         try {
             // Reset form immediately for better UX
             resetForm();
+            toast.success('Quote request sent successfully!');
             
             // Make API call with increased timeout
             const response = await axios.post('/api/send-email', submittedData, {
@@ -73,8 +71,9 @@ const GetQuotesForm = () => {
             });
             
             if (response.status === 200) {
-                toast.success('Quote request sent successfully!');
+                console.log('Quote request sent successfully!');
             } else {
+                toast.error('Quest request failed. Retry again!!')
                 throw new Error('Server responded with an error');
             }
             
