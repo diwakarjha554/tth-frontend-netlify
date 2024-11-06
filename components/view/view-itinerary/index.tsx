@@ -31,6 +31,7 @@ interface ItineraryFormValues {
     totalTrips: number;
     totalReviews: number;
     quotePrice: number;
+    pricePerPerson: number;
     days: Array<{
         dayNumber: number;
         summary: string;
@@ -74,6 +75,7 @@ const ViewItinerary = () => {
             totalTrips: parseInt(queryParams.get('totalTrips') || '0', 10),
             totalReviews: parseInt(queryParams.get('totalReviews') || '0', 10),
             quotePrice: parseInt(queryParams.get('quotePrice') || '0', 10),
+            pricePerPerson: parseInt(queryParams.get('pricePerPerson') || '0', 10),
             days,
             hotels,
             inclusions,
@@ -141,6 +143,10 @@ const ViewItinerary = () => {
                             <div className="mt-4 text-lg flex gap-2">
                                 <span className="font-semibold">Quoted price:</span>
                                 <span>₹{itineraryData?.quotePrice}</span>
+                            </div>
+                            <div className="mt-1 text-lg flex gap-2">
+                                <span className="font-semibold">Price per person:</span>
+                                <span>₹{itineraryData?.pricePerPerson}</span>
                             </div>
                         </div>
                     </div>

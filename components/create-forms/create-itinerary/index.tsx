@@ -20,6 +20,7 @@ const ItinerarySchema = z.object({
     cabs: z.string().min(1, 'Cabs details are required'),
     flights: z.string().min(1, 'Flight details are required'),
     quotePrice: z.number().min(0, 'Quote price cannot be negative'),
+    pricePerPerson: z.number().min(0, 'Price per person cannot be negative'),
     days: z.array(
         z.object({
             dayNumber: z.number(),
@@ -62,6 +63,7 @@ const DEFAULT_VALUES: ItineraryFormValues = {
     cabs: '',
     flights: '',
     quotePrice: 0,
+    pricePerPerson: 0,
     days: [{ dayNumber: 1, summary: '', imageSrc: '', description: '' }],
     hotels: [{ placeName: '', placeDescription: '', hotelName: '', roomType: '', hotelDescription: '' }],
     inclusions: [{ value: '' }],
@@ -158,7 +160,7 @@ const ItineraryForm = () => {
     const onSubmit = (data: ItineraryFormValues) => {
         const queryParams = new URLSearchParams();
         Object.entries(data).forEach(([key, value]) => {
-            queryParams.append(key, JSON.stringify(value));
+            queryParams.append(key, Array.isArray(value) ? JSON.stringify(value) : String(value));
         });
         window.open(`/view/itinerary?${queryParams.toString()}`, '_blank');
     };
@@ -351,6 +353,21 @@ const ItineraryForm = () => {
                         {errors.quotePrice && <p className={errorClassName}>{errors.quotePrice.message}</p>}
                     </div>
 
+                    {/* Price Per Person */}
+                    <div>
+                        <label htmlFor="pricePerPerson" className={labelClassName}>
+                            Price per person <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            {...register('pricePerPerson', { valueAsNumber: true })}
+                            type="number"
+                            placeholder="Enter price per person"
+                            className={inputClassName}
+                            min={0}
+                        />
+                        {errors.pricePerPerson && <p className={errorClassName}>{errors.pricePerPerson.message}</p>}
+                    </div>
+
                     {/* Days Section */}
                     <div className="border-t pt-5">
                         <h3 className="text-lg font-semibold mb-4">Daily Itinerary</h3>
@@ -423,7 +440,7 @@ const ItineraryForm = () => {
                                         <label className={labelClassName}>Place Description</label>
                                         <textarea
                                             {...register(`hotels.${index}.placeDescription`)}
-                                            placeholder="Enter place description"
+                                            placeholder="Number of Nights (Example: 1st Night, 2nd Night...)"
                                             className={inputClassName}
                                         />
                                         {errors.hotels?.[index]?.placeDescription && (

@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black dark:bg-white bg-opacity-50 transition-opacity dark:bg-opacity-10 dark:transition-opacity ${
                 isOpen ? 'visible opacity-100' : 'invisible opacity-0'
             }`}
             onClick={handleClose}
