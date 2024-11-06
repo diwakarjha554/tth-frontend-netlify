@@ -7,14 +7,13 @@ import DarkModeBtn from '@/components/navbar/lower-navbar/menu/dark-mode-btn';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { AiOutlineUser } from 'react-icons/ai';
 import { RiHeartFill, RiLogoutCircleRLine } from 'react-icons/ri';
-import Modal from '@/components/modal';
 import dynamic from 'next/dynamic';
 
-const LoginModal = dynamic(() => import('@/components/modal/login-modal'), { ssr: false });
+const AuthModal = dynamic(() => import('@/components/modal/authentication-modal'), { ssr: false });
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [openLoginModal, setOpenLoginModal] = useState(false);
+    const [openAuthModal, setOpenAuthModal] = useState(false);
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -38,8 +37,8 @@ const Menu = () => {
 
     const handleMenuBtnClick = useCallback(() => {
         setIsOpen(false);
-        setOpenLoginModal(true);
-    }, [setIsOpen, setOpenLoginModal]);
+        setOpenAuthModal(true);
+    }, [setIsOpen, setOpenAuthModal]);
 
     return (
         <div className="relative">
@@ -47,7 +46,7 @@ const Menu = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="rounded-full sm:border-2 dark:border-gray-500/50 py-2 sm:p-2 flex items-center gap-2 cursor-pointer"
             >
-                <HiOutlineMenuAlt3 className='h-6 w-6 sm:h-auto sm:w-auto'/>
+                <HiOutlineMenuAlt3 className="h-6 w-6 sm:h-auto sm:w-auto" />
                 <Avatar />
             </div>
             {isOpen && (
@@ -74,9 +73,7 @@ const Menu = () => {
                     />
                 </div>
             )}
-            <Modal title="Login" isOpen={openLoginModal} onClose={() => setOpenLoginModal(false)}>
-                <LoginModal />
-            </Modal>
+            {openAuthModal && <AuthModal />}
         </div>
     );
 };
