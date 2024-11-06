@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import Image from 'next/image';
 import { FaHotel } from 'react-icons/fa6';
 import { PiCarProfileBold } from 'react-icons/pi';
 import { format, parseISO } from 'date-fns';
