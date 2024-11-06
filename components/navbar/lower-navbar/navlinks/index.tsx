@@ -3,7 +3,7 @@ import React from 'react';
 
 const Navlinks = () => {
     return (
-        <div className="flex gap-4 font-semibold">
+        <div className="hidden md:flex gap-4 font-semibold">
             <ActiveLink href="/" text="Home" />
             <ActiveLink href="/packages" text="Packages" />
             <ActiveLink href="/about-us" text="About Us" />

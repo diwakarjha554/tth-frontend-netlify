@@ -45,9 +45,9 @@ const Menu = () => {
         <div className="relative">
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="rounded-full border-2 dark:border-gray-500/50 p-2 flex items-center gap-2 cursor-pointer"
+                className="rounded-full sm:border-2 dark:border-gray-500/50 py-2 sm:p-2 flex items-center gap-2 cursor-pointer"
             >
-                <HiOutlineMenuAlt3 />
+                <HiOutlineMenuAlt3 className='h-6 w-6 sm:h-auto sm:w-auto'/>
                 <Avatar />
             </div>
             {isOpen && (
