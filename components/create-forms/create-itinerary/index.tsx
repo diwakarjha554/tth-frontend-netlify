@@ -206,7 +206,7 @@ const ItineraryForm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label htmlFor="clientName" className={labelClassName}>
-                                Client's Name <span className="text-red-500">*</span>
+                                Client&apos;s Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 {...register('clientName')}
