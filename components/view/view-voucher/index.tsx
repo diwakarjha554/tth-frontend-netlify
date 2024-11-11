@@ -6,6 +6,8 @@ import { PiCarProfileBold } from 'react-icons/pi';
 import { format, parseISO } from 'date-fns';
 import { Noto_Sans } from 'next/font/google';
 import LogoFull from '@/components/ui/features/LogoFull';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const notoSans = Noto_Sans({
     subsets: ['latin'],
@@ -66,7 +68,15 @@ const ViewVoucher = () => {
             <div className={`max-w-[894px]`}>
                 <div className="bg-indigo-50 px-5 py-7">
                     <header className="flex justify-center items-center gap-2">
-                        <LogoFull />
+                        <Link href="/" className="relative h-9 w-72 select-none">
+                            <Image
+                                src="/logo/logovoucher.png"
+                                alt="Travel Trail Holidays Logo"
+                                fill
+                                quality={100}
+                                className="object-contain"
+                            />
+                        </Link>
                     </header>
                     <div className="text-[18px] mt-4 text-black">
                         <div className="flex gap-2 font-medium">
