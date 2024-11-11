@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Noto_Sans } from 'next/font/google';
-import LogoFull from '@/components/ui/features/LogoFull';
 import { FaPhoneAlt, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { FaCheck, FaHotel, FaSuitcase } from 'react-icons/fa6';
 import { RxCrossCircled } from 'react-icons/rx';

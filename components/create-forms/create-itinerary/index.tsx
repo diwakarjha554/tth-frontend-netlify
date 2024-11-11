@@ -170,9 +170,34 @@ const ItineraryForm = () => {
         if (url) {
             try {
                 const urlParams = new URLSearchParams(url.split('?')[1]);
+
                 urlParams.forEach((value, key) => {
-                    if (value) {
-                        setValue(key as keyof ItineraryFormValues, JSON.parse(value));
+                    if (!value) return;
+
+                    try {
+                        // Handle array fields specially
+                        if (['days', 'hotels', 'inclusions', 'exclusions'].includes(key)) {
+                            const parsedValue = JSON.parse(decodeURIComponent(value));
+                            setValue(key as keyof ItineraryFormValues, parsedValue);
+                        }
+                        // Handle number fields
+                        else if (
+                            [
+                                'numberOfDays',
+                                'numberOfNights',
+                                'numberOfHotels',
+                                'quotePrice',
+                                'pricePerPerson',
+                            ].includes(key)
+                        ) {
+                            setValue(key as keyof ItineraryFormValues, Number(value));
+                        }
+                        // Handle string fields
+                        else {
+                            setValue(key as keyof ItineraryFormValues, decodeURIComponent(value));
+                        }
+                    } catch (parseError) {
+                        console.error(`Error parsing field ${key}:`, parseError);
                     }
                 });
             } catch (error) {
