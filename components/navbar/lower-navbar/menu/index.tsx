@@ -7,13 +7,9 @@ import DarkModeBtn from '@/components/navbar/lower-navbar/menu/dark-mode-btn';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { AiOutlineUser } from 'react-icons/ai';
 import { RiHeartFill, RiLogoutCircleRLine } from 'react-icons/ri';
-import dynamic from 'next/dynamic';
-
-const AuthModal = dynamic(() => import('@/components/modal/authentication-modal'), { ssr: false });
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [openAuthModal, setOpenAuthModal] = useState(false);
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -35,11 +31,6 @@ const Menu = () => {
         };
     }, [isOpen]);
 
-    const handleMenuBtnClick = useCallback(() => {
-        setIsOpen(false);
-        setOpenAuthModal(true);
-    }, [setIsOpen, setOpenAuthModal]);
-
     return (
         <div className="relative">
             <div
@@ -52,8 +43,7 @@ const Menu = () => {
             {isOpen && (
                 <div className="modal absolute bg-background border top-12 right-0 rounded-xl w-64 p-1">
                     <MenuItems
-                        onClick={handleMenuBtnClick}
-                        href="#"
+                        href="/auth/login"
                         title="Login"
                         icon={AiOutlineUser}
                         className="bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40"
@@ -73,7 +63,6 @@ const Menu = () => {
                     />
                 </div>
             )}
-            {openAuthModal && <AuthModal />}
         </div>
     );
 };

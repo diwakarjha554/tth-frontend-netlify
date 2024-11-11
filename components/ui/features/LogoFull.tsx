@@ -9,14 +9,14 @@ const LogoFull = () => {
             className="relative h-9 w-72 select-none"
         >
             <Image
-                src="/logo-light.png"
+                src="/logo/logoFullLight.png"
                 alt="Travel Trail Holidays Logo"
                 fill
                 quality={100}
                 className="object-contain dark:hidden"
             />
             <Image
-                src="/logo-dark.png"
+                src="/logo/logoFullDark.png"
                 alt="Travel Trail Holidays Logo"
                 fill
                 quality={100}

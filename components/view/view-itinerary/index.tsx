@@ -10,6 +10,7 @@ import Image from 'next/image';
 import BulletPoints from './bullet-points';
 import { MdRateReview } from 'react-icons/md';
 import { AiFillThunderbolt } from 'react-icons/ai';
+import Link from 'next/link';
 
 const notoSans = Noto_Sans({
     subsets: ['latin'],
@@ -92,11 +93,19 @@ const ViewItinerary = () => {
     return (
         <div className={`w-full flex justify-center items-center ${notoSans.className}`}>
             <div className={`max-w-[894px] w-full`}>
-                <header className="bg-slate-900 text-white w-full flex p-3 justify-between">
-                    <LogoFull />
+                <header className="bg-slate-900 text-white w-full flex p-3 justify-between items-center">
+                    <Link href="/" className="relative h-9 w-72 select-none">
+                        <Image
+                            src="/logo/logoItinerary.png"
+                            alt="Travel Trail Holidays Logo"
+                            fill
+                            quality={100}
+                            className="object-contain"
+                        />
+                    </Link>
                     <div className={`flex items-center gap-2`}>
                         <div
-                            className={`bg-custom-clp rounded-full w-10 h-10 flex justify-center items-center text-custom-txd`}
+                            className={`bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full w-10 h-10 flex justify-center items-center text-custom-txd`}
                         >
                             <FaPhoneAlt size={16} />
                         </div>
@@ -120,17 +129,17 @@ const ViewItinerary = () => {
                                 tailored just for you by Travel Trail Holidays, one of the most trusted names in
                                 travel!✨
                             </span>
-                            <div className='flex gap-10 items-center mt-5'>
-                                <div className='flex items-center gap-2 font-semibold'>
-                                    <FaSuitcase size={20}/>
-                                    {itineraryData?.totalTrips}+ Trip sold
+                            <div className="flex gap-10 items-center mt-5">
+                                <div className="flex items-center gap-2 font-semibold">
+                                    <FaSuitcase size={20} />
+                                    500+ Trip sold
                                 </div>
-                                <div className='flex items-center gap-2 font-semibold'>
-                                    <MdRateReview size={22}/>
-                                    {itineraryData?.totalReviews}+ Reviews
+                                <div className="flex items-center gap-2 font-semibold">
+                                    <MdRateReview size={22} />
+                                    350+ Reviews
                                 </div>
-                                <div className='flex items-center gap-1 font-semibold'>
-                                    <AiFillThunderbolt size={22}/>
+                                <div className="flex items-center gap-1 font-semibold">
+                                    <AiFillThunderbolt size={22} />
                                     100% Super reviews
                                 </div>
                             </div>
@@ -163,7 +172,7 @@ const ViewItinerary = () => {
                                     <div className="flex gap-10 items-center p-5">
                                         <FaHotel size={100} color="#FACC15" className="" />
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-custom-clp font-semibold text-lg">
+                                            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-semibold text-lg">
                                                 {hotel.hotelName}
                                             </span>
                                             <span className="text-lg">Room Type: {hotel.roomType}</span>
@@ -261,8 +270,15 @@ const ViewItinerary = () => {
                                         <span>Merchant: Travel Trail Holidays Private Limited</span>
                                         <span>UPI ID: 9625992025@upi</span>
                                         <span>UPI No: 9625992025</span>
-                                        <Image src={'/upi.jpg'} alt="" width={200} height={200} />
-                                        <Image src={'/pay.jpg'} alt="" width={1000000} height={1000000} quality={100} className='w-[250px]'/>
+                                        <Image src={'/payments/upi.jpg'} alt="" width={200} height={200} />
+                                        <Image
+                                            src={'/payments/pay.jpg'}
+                                            alt=""
+                                            width={1000000}
+                                            height={1000000}
+                                            quality={100}
+                                            className="w-[250px]"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -465,7 +481,7 @@ const ViewItinerary = () => {
                 {showPrintButton && (
                     <div
                         onClick={handlePrint}
-                        className="py-2 bg-custom-clp rounded font-medium text-white hover:bg-custom-clp/80 text-center my-20 cursor-pointer"
+                        className="py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded font-medium text-white text-center my-20 cursor-pointer"
                     >
                         Print
                     </div>
