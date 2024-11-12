@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/ui/theme/providers';
 import { Toaster } from 'react-hot-toast';
+import { SessionProvider } from 'next-auth/react';
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -29,10 +30,13 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={montserrat.className}>
+                <SessionProvider>
+
                 <Providers>
                     {children}
                     <Toaster />
                 </Providers>
+                </SessionProvider>
             </body>
         </html>
     );
