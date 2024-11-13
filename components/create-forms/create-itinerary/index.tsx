@@ -64,8 +64,19 @@ const DEFAULT_VALUES: ItineraryFormValues = {
     flights: '',
     quotePrice: 0,
     pricePerPerson: 0,
-    days: [{ dayNumber: 1, summary: '', imageSrc: '', description: '' }],
-    hotels: [{ placeName: '', placeDescription: '', hotelName: '', roomType: '', hotelDescription: '' }],
+    days: Array.from({ length: 1 }, (_, index) => ({
+        dayNumber: index + 1,
+        summary: '',
+        imageSrc: '',
+        description: '',
+    })),
+    hotels: Array.from({ length: 1 }, () => ({
+        placeName: '',
+        placeDescription: '',
+        hotelName: '',
+        roomType: '',
+        hotelDescription: '',
+    })),
     inclusions: [{ value: '' }],
     exclusions: [{ value: '' }],
 };
@@ -123,11 +134,11 @@ const ItineraryForm = () => {
     // Update days array when numberOfDays changes
     useEffect(() => {
         if (Array.isArray(watch('days'))) {
-            const newDays = watch('days').map((day, index) => ({
+            const newDays = Array.from({ length: numberOfDays }, (_, index) => ({
                 dayNumber: index + 1,
-                summary: day.summary || '',
-                imageSrc: day.imageSrc || '',
-                description: day.description || '',
+                summary: dayFields[index]?.summary || '',
+                imageSrc: dayFields[index]?.imageSrc || '',
+                description: dayFields[index]?.description || '',
             }));
             replaceDays(newDays);
         }
@@ -137,12 +148,12 @@ const ItineraryForm = () => {
     useEffect(() => {
         const parsedHotels = watch('hotels');
         if (Array.isArray(parsedHotels)) {
-            const newHotels = parsedHotels.map((hotel, index) => ({
-                placeName: hotel.placeName || '',
-                placeDescription: hotel.placeDescription || '',
-                hotelName: hotel.hotelName || '',
-                roomType: hotel.roomType || '',
-                hotelDescription: hotel.hotelDescription || '',
+            const newHotels = Array.from({ length: numberOfHotels }, (_, index) => ({
+                placeName: parsedHotels[index]?.placeName || '',
+                placeDescription: parsedHotels[index]?.placeDescription || '',
+                hotelName: parsedHotels[index]?.hotelName || '',
+                roomType: parsedHotels[index]?.roomType || '',
+                hotelDescription: parsedHotels[index]?.hotelDescription || '',
             }));
             replaceHotels(newHotels);
         } else {
@@ -462,10 +473,10 @@ const ItineraryForm = () => {
                                     </div>
 
                                     <div>
-                                        <label className={labelClassName}>Place Description</label>
+                                        <label className={labelClassName}>Night Details</label>
                                         <textarea
                                             {...register(`hotels.${index}.placeDescription`)}
-                                            placeholder="Number of Nights (Example: 1st Night, 2nd Night...)"
+                                            placeholder="Example: 1st Night, 2nd Night"
                                             className={inputClassName}
                                         />
                                         {errors.hotels?.[index]?.placeDescription && (

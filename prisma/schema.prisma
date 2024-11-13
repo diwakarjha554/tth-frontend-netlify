@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "mongodb"
-  url       = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Theme {
@@ -86,18 +86,19 @@ model Packages {
   description String
   imageSrc    String
   theme       String
-  price       Int
+  price       Float
   location    String
   days        Int
   nights      Int
   rating      Float
-  discount    Int
-  otherInfo   Json
+  discount    Float    @default(0)
   pickup      String
   drop        String
-  itinerary   Json
+  otherInfo   Json // Stores info sections and disclaimer
+  itinerary   Json // Stores daily itineraries
   userId      String   @db.ObjectId
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
