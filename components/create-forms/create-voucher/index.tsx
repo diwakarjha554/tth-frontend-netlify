@@ -59,14 +59,13 @@ const VoucherForm = () => {
             const bookingId = data.bookingId || generateBookingId();
             const queryParams = new URLSearchParams();
 
-            queryParams.append('clientName', data.clientName);
-            queryParams.append('bookingId', bookingId);
-            queryParams.append('hotelNo', data.hotelNo.toString());
-            queryParams.append('adultNo', data.adultNo.toString());
-            queryParams.append('childrenNo', data.childrenNo.toString());
-            queryParams.append('totalNights', data.totalNights.toString());
-            queryParams.append('itinary', JSON.stringify(data.itinary));
-            queryParams.append('cabDetails', data.cabDetails);
+            Object.entries(data).forEach(([key, value]) => {
+                if (key === 'itinary') {
+                    queryParams.append(key, JSON.stringify(value));
+                } else {
+                    queryParams.append(key, value.toString());
+                }
+            });
 
             window.open(`/view/voucher?${queryParams.toString()}`, '_blank');
         },
@@ -79,22 +78,20 @@ const VoucherForm = () => {
             const totalNights = watch('totalNights');
             const currentItinary = watch('itinary');
 
+            // Create new itinary array with specified number of hotels
             const newItinary = Array(numHotels)
                 .fill(null)
                 .map((_, index) => ({
-                    ...(currentItinary[index] || { hotelName: '', fromDate: '', toDate: '', description: '' }),
+                    // Preserve existing hotel data if available
+                    ...(currentItinary[index] || {
+                        hotelName: '',
+                        fromDate: '',
+                        toDate: '',
+                        description: '',
+                    }),
+                    // First hotel gets all nights, others get 0
                     nights: index === 0 ? totalNights : 0,
                 }));
-
-            let remainingNights = totalNights;
-            for (let i = 0; i < numHotels - 1; i++) {
-                const nights = Math.ceil(remainingNights / (numHotels - i));
-                newItinary[i].nights = nights;
-                remainingNights -= nights;
-            }
-            if (numHotels > 0) {
-                newItinary[numHotels - 1].nights = remainingNights;
-            }
 
             setValue('hotelNo', numHotels);
             setValue('itinary', newItinary);
@@ -106,30 +103,32 @@ const VoucherForm = () => {
         (index: number, value: number) => {
             const totalNights = watch('totalNights');
             const currentItinary = [...watch('itinary')];
-            const numHotels = currentItinary.length;
 
+            // Ensure non-negative value
             value = Math.max(0, value);
-            const diff = value - currentItinary[index].nights;
+
+            // Calculate maximum allowable nights for this hotel
+            const previousHotelsNights = currentItinary.slice(0, index).reduce((sum, hotel) => sum + hotel.nights, 0);
+            const remainingNightsForCurrentAndNext = totalNights - previousHotelsNights;
+            value = Math.min(value, remainingNightsForCurrentAndNext);
+
+            // Update current hotel nights
             currentItinary[index].nights = value;
 
-            let remainingDiff = -diff;
-            for (let i = 0; i < numHotels; i++) {
-                if (i !== index) {
-                    const availableToReduce = Math.min(currentItinary[i].nights, remainingDiff);
-                    currentItinary[i].nights -= availableToReduce;
-                    remainingDiff -= availableToReduce;
-                    if (remainingDiff <= 0) break;
+            // Calculate remaining nights for subsequent hotels
+            let remainingNights = remainingNightsForCurrentAndNext - value;
+
+            // Distribute remaining nights to subsequent hotels
+            for (let i = index + 1; i < currentItinary.length; i++) {
+                if (i === currentItinary.length - 1) {
+                    // Last hotel gets all remaining nights
+                    currentItinary[i].nights = remainingNights;
+                } else {
+                    // Intermediate hotels keep their current nights if possible
+                    const currentHotelNights = Math.min(currentItinary[i].nights || 0, remainingNights);
+                    currentItinary[i].nights = currentHotelNights;
+                    remainingNights -= currentHotelNights;
                 }
-            }
-
-            if (remainingDiff > 0) {
-                currentItinary[index].nights += remainingDiff;
-            }
-
-            const sumNights = currentItinary.reduce((sum, hotel) => sum + hotel.nights, 0);
-            if (sumNights !== totalNights) {
-                const lastIndex = numHotels - 1;
-                currentItinary[lastIndex].nights += totalNights - sumNights;
             }
 
             setValue('itinary', currentItinary);
@@ -137,29 +136,52 @@ const VoucherForm = () => {
         [setValue, watch]
     );
 
-    const memoizedFields = useMemo(() => fields, [fields]);
+    const handleTotalNightsChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const newTotalNights = Math.max(1, parseInt(e.target.value) || 1);
+            setValue('totalNights', newTotalNights);
 
-    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const url = e.target.value;
-        if (url) {
-            const urlParams = new URLSearchParams(url.split('?')[1]);
-
-            // Parse and set each value from the URL parameters
-            setValue('clientName', urlParams.get('clientName') || '');
-            setValue('bookingId', urlParams.get('bookingId') || '');
-            setValue('hotelNo', parseInt(urlParams.get('hotelNo') || '1') || 1);
-            setValue('adultNo', parseInt(urlParams.get('adultNo') || '1') || 1);
-            setValue('childrenNo', parseInt(urlParams.get('childrenNo') || '0') || 0);
-            setValue('totalNights', parseInt(urlParams.get('totalNights') || '1') || 1);
-            setValue('cabDetails', urlParams.get('cabDetails') || '');
-
-            // Parse itinerary and set it if valid
-            const itinerary = JSON.parse(urlParams.get('itinary') || '[]');
-            if (Array.isArray(itinerary)) {
-                setValue('itinary', itinerary);
+            // Redistribute nights when total changes
+            const currentItinary = watch('itinary');
+            const firstHotel = currentItinary[0];
+            if (firstHotel) {
+                handleNightChange(0, newTotalNights);
             }
-        }
-    };
+        },
+        [setValue, watch, handleNightChange]
+    );
+
+    const handleUrlChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const url = e.target.value;
+            if (url) {
+                try {
+                    const urlParams = new URLSearchParams(url.split('?')[1]);
+
+                    setValue('clientName', urlParams.get('clientName') || '');
+                    setValue('bookingId', urlParams.get('bookingId') || '');
+                    setValue('hotelNo', parseInt(urlParams.get('hotelNo') || '1'));
+                    setValue('adultNo', parseInt(urlParams.get('adultNo') || '1'));
+                    setValue('childrenNo', parseInt(urlParams.get('childrenNo') || '0'));
+                    setValue('totalNights', parseInt(urlParams.get('totalNights') || '1'));
+                    setValue('cabDetails', urlParams.get('cabDetails') || '');
+
+                    const itinaryData = urlParams.get('itinary');
+                    if (itinaryData) {
+                        const itinary = JSON.parse(itinaryData);
+                        if (Array.isArray(itinary)) {
+                            setValue('itinary', itinary);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error parsing URL:', error);
+                }
+            }
+        },
+        [setValue]
+    );
+
+    const memoizedFields = useMemo(() => fields, [fields]);
 
     return (
         <Section className="pt-10 pb-20">
@@ -181,17 +203,17 @@ const VoucherForm = () => {
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
                     </div>
+
                     <div>
                         <label
                             htmlFor="clientName"
                             className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                         >
-                            Client&apos;s Name <span className="text-red-500">*</span>
+                            Client's Name <span className="text-red-500">*</span>
                         </label>
                         <input
                             {...register('clientName', { required: 'Client name is required' })}
                             type="text"
-                            name="clientName"
                             placeholder="Enter client's name"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
@@ -208,7 +230,6 @@ const VoucherForm = () => {
                         <input
                             {...register('bookingId')}
                             type="text"
-                            name="bookingId"
                             placeholder="Booking ID (leave blank for auto-generation)"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
@@ -225,19 +246,15 @@ const VoucherForm = () => {
                             {...register('totalNights', {
                                 valueAsNumber: true,
                                 min: 1,
-                                onChange: (e) => {
-                                    const value = Math.max(1, parseInt(e.target.value) || 1);
-                                    setValue('totalNights', value);
-                                    handleHotelNoChange({
-                                        target: { value: watch('hotelNo').toString() },
-                                    } as React.ChangeEvent<HTMLInputElement>);
-                                },
+                                required: 'Total nights is required',
                             })}
                             type="number"
-                            name="totalNights"
+                            min="1"
+                            onChange={handleTotalNightsChange}
                             placeholder="Enter total nights"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
+                        {errors.totalNights && <span className="text-red-500">{errors.totalNights.message}</span>}
                     </div>
 
                     <div>
@@ -245,16 +262,21 @@ const VoucherForm = () => {
                             htmlFor="hotelNo"
                             className="block text-gray-700 dark:text-white text-sm font-semibold mb-2"
                         >
-                            Hotel&apos;s No <span className="text-red-500">*</span>
+                            Number of Hotels <span className="text-red-500">*</span>
                         </label>
                         <input
-                            {...register('hotelNo', { valueAsNumber: true, min: 1 })}
+                            {...register('hotelNo', {
+                                valueAsNumber: true,
+                                min: 1,
+                                required: 'Number of hotels is required',
+                            })}
                             onChange={handleHotelNoChange}
                             type="number"
-                            name="hotelNo"
+                            min="1"
                             placeholder="Enter number of hotels"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
+                        {errors.hotelNo && <span className="text-red-500">{errors.hotelNo.message}</span>}
                     </div>
 
                     <div>
@@ -265,13 +287,17 @@ const VoucherForm = () => {
                             Adults <span className="text-red-500">*</span>
                         </label>
                         <input
-                            {...register('adultNo', { valueAsNumber: true, min: 1 })}
+                            {...register('adultNo', {
+                                valueAsNumber: true,
+                                min: 1,
+                                required: 'Number of adults is required',
+                            })}
                             type="number"
-                            name="adultNo"
+                            min="1"
                             placeholder="Enter number of adults"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-                            min={1}
                         />
+                        {errors.adultNo && <span className="text-red-500">{errors.adultNo.message}</span>}
                     </div>
 
                     <div>
@@ -282,12 +308,14 @@ const VoucherForm = () => {
                             Children
                         </label>
                         <input
-                            {...register('childrenNo', { valueAsNumber: true, min: 0 })}
+                            {...register('childrenNo', {
+                                valueAsNumber: true,
+                                min: 0,
+                            })}
                             type="number"
-                            name="childrenNo"
+                            min="0"
                             placeholder="Enter number of children"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-                            min={0}
                         />
                     </div>
 
@@ -326,9 +354,15 @@ const VoucherForm = () => {
                                                 min: 0,
                                             })}
                                             type="number"
+                                            min="0"
                                             onChange={(e) => handleNightChange(index, parseInt(e.target.value) || 0)}
                                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                                         />
+                                        {errors.itinary?.[index]?.nights && (
+                                            <span className="text-red-500">
+                                                {errors.itinary[index].nights?.message}
+                                            </span>
+                                        )}
                                     </div>
 
                                     <div>
@@ -401,14 +435,14 @@ const VoucherForm = () => {
                             {...register('cabDetails', {
                                 required: 'Cab details are required',
                             })}
-                            name="cabDetails"
+                            type="text"
                             placeholder="Enter cab details"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
                         />
                         {errors.cabDetails && <span className="text-red-500">{errors.cabDetails.message}</span>}
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-end mt-6">
                         <button
                             type="submit"
                             className="py-5 px-10 cursor-pointer bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded font-medium w-full lg:w-fit text-center text-white hover:scale-105 transition-all duration-300"
