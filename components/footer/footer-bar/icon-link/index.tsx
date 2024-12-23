@@ -41,14 +41,15 @@ const IconLink: React.FC<IconLinkProps> = ({ icon: Icon, activeIcon: ActiveIcon,
             ) : (
                 <Icon 
                     size={26} 
-                    className="text-[#a3a3a3] group-hover:text-[#D9C1A3] transition-colors duration-200" 
+                    className="text-[#a3a3a3] group-hover:text-indigo-500 transition-colors duration-200"
+                    
                 />
             )}
             <p
                 className={`text-[10px] transition-colors duration-200 ${
                     isActive 
                         ? 'text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-semibold' 
-                        : 'text-[#a3a3a3] group-hover:text-[#D9C1A3]'
+                        : 'text-[#a3a3a3] group-hover:text-indigo-500'
                 }`}
             >
                 {text}

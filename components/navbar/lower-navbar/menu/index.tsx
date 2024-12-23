@@ -9,11 +9,16 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { RiHeartFill, RiLogoutCircleRLine } from 'react-icons/ri';
 import getCurrentUser from '@/actions/auth/get-current-user-actions';
 import { signOut } from 'next-auth/react';
+import SideBar from './sidebar';
 
 const Menu = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const currentUser = getCurrentUser();
+
+    const onClose = () => {
+        setIsOpen(false);
+    };
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -39,13 +44,13 @@ const Menu = () => {
         <div className="relative">
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="rounded-full sm:border-2 dark:border-gray-500/50 py-2 sm:p-2 flex items-center gap-2 cursor-pointer"
+                className="rounded-full lg:border-2 dark:border-gray-500/50 py-2 lg:p-2 flex items-center gap-2 cursor-pointer"
             >
-                <HiOutlineMenuAlt3 className="h-6 w-6 sm:h-auto sm:w-auto" />
-                <Avatar src={currentUser?.image} className="w-[30px] h-[30px] hidden md:block"/>
+                <HiOutlineMenuAlt3 className="h-6 w-6 lg:h-auto lg:w-auto" />
+                <Avatar src={currentUser?.image} className="w-[30px] h-[30px] hidden lg:block" />
             </div>
             {isOpen && (
-                <div className="modal absolute bg-background border top-10 md:top-[55px] right-0 rounded-xl w-64 p-1">
+                <div className="modal hidden lg:block absolute bg-background border top-10 lg:top-[55px] right-0 rounded-xl w-64 p-1">
                     {currentUser ? (
                         <>
                             <div className="flex items-center gap-3 px-3 h-16 bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40 cursor-pointer">
@@ -78,6 +83,11 @@ const Menu = () => {
                             <DarkModeBtn />
                         </>
                     )}
+                </div>
+            )}
+            {isOpen && (
+                <div className='modal lg:hidden'>
+                    <SideBar isOpen={isOpen} onClose={() => setIsOpen(false)} />
                 </div>
             )}
         </div>
