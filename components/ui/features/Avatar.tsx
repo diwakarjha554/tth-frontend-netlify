@@ -13,7 +13,7 @@ const Avatar: React.FC<AvatarProps> = ({ src, className }) => {
             alt=""
             width={26}
             height={26}
-            className={`rounded-full select-none hidden sm:block ${className}`}
+            className={`rounded-full select-none block ${className}`}
         />
     );
 };

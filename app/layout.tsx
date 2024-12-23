@@ -4,6 +4,8 @@ import './globals.css';
 import { Providers } from '@/components/ui/theme/providers';
 import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from 'next-auth/react';
+import NextTopLoader from 'nextjs-toploader';
+import { GoogleTagManager } from '@next/third-parties/google';
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -30,13 +32,14 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={montserrat.className}>
+                <NextTopLoader color="#98FF98" height={3} showSpinner={false} />
                 <SessionProvider>
-
-                <Providers>
-                    {children}
-                    <Toaster />
-                </Providers>
+                    <Providers>
+                        {children}
+                        <Toaster />
+                    </Providers>
                 </SessionProvider>
+                <GoogleTagManager gtmId="GTM-MP378SLG" />
             </body>
         </html>
     );

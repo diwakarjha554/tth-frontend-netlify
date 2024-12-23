@@ -10,7 +10,7 @@ import LegalFooter from './legal';
 
 const Footer = () => {
     return (
-        <Section className="pt-7 pb-12 md:pb-7 border-t-[1px]">
+        <Section className="pt-7 pb-20 md:pb-7 border-t-[1px]">
             <Container className='w-full flex flex-col gap-5'>
                 <div className="w-full flex flex-col gap-5 sm:flex-row items-center justify-between">
                     <LogoFull />

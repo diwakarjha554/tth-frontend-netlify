@@ -42,10 +42,10 @@ const Menu = () => {
                 className="rounded-full sm:border-2 dark:border-gray-500/50 py-2 sm:p-2 flex items-center gap-2 cursor-pointer"
             >
                 <HiOutlineMenuAlt3 className="h-6 w-6 sm:h-auto sm:w-auto" />
-                <Avatar src={currentUser?.image} className="w-[30px] h-[30px]"/>
+                <Avatar src={currentUser?.image} className="w-[30px] h-[30px] hidden md:block"/>
             </div>
             {isOpen && (
-                <div className="modal absolute bg-background border top-12 right-0 rounded-xl w-64 p-1">
+                <div className="modal absolute bg-background border top-10 md:top-[55px] right-0 rounded-xl w-64 p-1">
                     {currentUser ? (
                         <>
                             <div className="flex items-center gap-3 px-3 h-16 bg-background rounded-xl hover:bg-gray-200 dark:hover:bg-gray-500/40 cursor-pointer">
