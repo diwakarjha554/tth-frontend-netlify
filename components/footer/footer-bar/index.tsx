@@ -8,10 +8,10 @@ import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 
 const FooterBar = () => {
     return (
-        <div className="fixed bg-white bottom-0 w-full z-30 px-3 py-2 border-t-[0.1px] border-gray-200 lg:hidden flex justify-around">
+        <div className="fixed bg-background bottom-0 w-full z-30 px-3 py-2 border-t lg:hidden flex justify-around">
             <IconLink activeIcon={GoHomeFill} icon={GoHome} href="/" text="Home" />
             <IconLink activeIcon={IoIosHeart} icon={IoIosHeartEmpty} href="/wishlist" text="Wishlist" />
-            <IconLink activeIcon={RiAccountCircleFill} icon={RiAccountCircleLine} href="/auth" text="Account" />
+            <IconLink activeIcon={RiAccountCircleFill} icon={RiAccountCircleLine} href="/auth/login" text="Account" />
         </div>
     );
 };

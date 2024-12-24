@@ -169,7 +169,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose, isOpen }) => {
                                 </motion.div>
                             )}
 
-                            <nav className="p-6 bg-gray-50 dark:bg-gray-900 h-full">
+                            <nav className={`bg-background h-full ${currentUser ? 'p-6' : 'p-6 pt-20'}`}>
                                 <motion.div
                                     className="flex flex-col gap-2"
                                     initial="closed"
@@ -197,6 +197,9 @@ const SideBar: React.FC<SideBarProps> = ({ onClose, isOpen }) => {
                             >
                                 {currentUser ? (
                                     <>
+                                        <div className="my-2">
+                                            <DarkModeBtn />
+                                        </div>
                                         <ActionButton
                                             icon={RiHeartFill}
                                             text="Wishlist"
@@ -205,9 +208,7 @@ const SideBar: React.FC<SideBarProps> = ({ onClose, isOpen }) => {
                                                 window.location.href = '/wishlist';
                                             }}
                                         />
-                                        <div className="my-4">
-                                            <DarkModeBtn />
-                                        </div>
+                                        <div className="my-2"></div>
                                         <ActionButton
                                             icon={RiLogoutCircleRLine}
                                             text="Logout"
@@ -219,6 +220,9 @@ const SideBar: React.FC<SideBarProps> = ({ onClose, isOpen }) => {
                                     </>
                                 ) : (
                                     <>
+                                        <div className="my-2">
+                                            <DarkModeBtn />
+                                        </div>
                                         <ActionButton
                                             icon={AiOutlineUser}
                                             text="Login"
@@ -227,11 +231,6 @@ const SideBar: React.FC<SideBarProps> = ({ onClose, isOpen }) => {
                                                 window.location.href = '/auth/login';
                                             }}
                                         />
-                                        <div className="my-4">
-                                            <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-xl">
-                                                <DarkModeBtn />
-                                            </div>
-                                        </div>
                                     </>
                                 )}
                             </motion.div>
